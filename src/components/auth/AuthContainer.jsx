@@ -13,7 +13,6 @@ const AuthContainerXS = ({ children }) => (
       padding: "2rem",
       width: "100vw",
       maxWidth: "480px",
-      height: "100vh",
       maxHeight: "800px",
     }}
   >
