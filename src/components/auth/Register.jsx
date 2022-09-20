@@ -92,7 +92,7 @@ const Register = () => {
   return (
     <main style={{
       overflow: "scroll",
-      display: "flow",
+      display: "flex",
       flowDirection: "column",
       justifyContent: "center",
       alignItems: "center",
