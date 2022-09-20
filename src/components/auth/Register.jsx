@@ -90,7 +90,15 @@ const Register = () => {
   }, [state.password.content, state.match.content]);
 
   return (
-    <StyledAuthContainer>
+    <main style={{
+      overflow: "scroll",
+      display: "flow",
+      flowDirection: "column",
+      justifyContent: "center",
+      alignItems: "center",
+      width: "100vw",
+      minHeight: "100vh",
+    }}>
       <AuthContainerXS>
         <Typography variant="h4" gutterBottom={true} fontWeight="bold" mt={0}>
           注册
@@ -106,7 +114,7 @@ const Register = () => {
           actionType={actionType}
         />
       </AuthContainerXS>
-    </StyledAuthContainer>
+    </main>
   );
 };
 
