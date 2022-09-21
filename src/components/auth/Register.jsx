@@ -1,9 +1,7 @@
-import { useReducer, useEffect } from "react";
+import { useReducer, useEffect, useRef } from "react";
 import Typography from "@mui/material/Typography";
-import { StyledAuthContainer } from "../styledComponents";
-import { AuthContainer, AuthContainerXS } from "./AuthContainer";
+import AuthFormContainer from "./AuthContainer";
 import RegisterForm from "./RegisterForm";
-import { useMediaQuery, Box, useTheme } from "@mui/material";
 
 //Regex for validating username and password
 const USER_REGEX = /^[A-z][A-z0-9-_]{3,23}$/;
@@ -55,9 +53,6 @@ const reducer = (state, action) => {
 
 const Register = () => {
   const [state, dispatch] = useReducer(reducer, registerInit);
-  const theme = useTheme();
-  const isSmallerThanSM = useMediaQuery(theme.breakpoints.down("sm"));
-  const isSmallerThanLG = useMediaQuery(theme.breakpoints.down("lg"));
 
   useEffect(() => {
     dispatch({
@@ -90,16 +85,18 @@ const Register = () => {
   }, [state.password.content, state.match.content]);
 
   return (
-    <main style={{
-      overflow: "scroll",
-      display: "flex",
-      flowDirection: "column",
-      justifyContent: "center",
-      alignItems: "center",
-      width: "100vw",
-      minHeight: "100vh",
-    }}>
-      <AuthContainerXS>
+    <main
+      style={{
+        overflow: "scroll",
+        display: "flex",
+        flowDirection: "column",
+        justifyContent: "center",
+        alignItems: "center",
+        width: "100vw",
+        minHeight: "100vh",
+      }}
+    >
+      <AuthFormContainer>
         <Typography variant="h4" gutterBottom={true} fontWeight="bold" mt={0}>
           注册
         </Typography>
@@ -113,7 +110,7 @@ const Register = () => {
           state={state}
           actionType={actionType}
         />
-      </AuthContainerXS>
+      </AuthFormContainer>
     </main>
   );
 };
