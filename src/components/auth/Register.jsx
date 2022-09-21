@@ -1,4 +1,5 @@
-import { useReducer, useEffect, useRef } from "react";
+import { useReducer, useEffect } from "react";
+import { Link } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import AuthFormContainer from "./AuthContainer";
 import RegisterForm from "./RegisterForm";
@@ -96,21 +97,38 @@ const Register = () => {
         minHeight: "100vh",
       }}
     >
-      <AuthFormContainer>
-        <Typography variant="h4" gutterBottom={true} fontWeight="bold" mt={0}>
-          注册
+      {state.isRegisterSuccess ? (
+        <Typography variant="h4" fontWeight="bold">
+          注册成功！跳转至登录页面中...
         </Typography>
-        {state.errorMessage && (
-          <Typography variant="paragraph" color="error">
-            {state.errorMessage}
+      ) : (
+        <AuthFormContainer>
+          <Typography variant="h4" gutterBottom={true} fontWeight="bold" mt={0}>
+            注册
           </Typography>
-        )}
-        <RegisterForm
-          dispatch={dispatch}
-          state={state}
-          actionType={actionType}
-        />
-      </AuthFormContainer>
+          {state.errorMessage && (
+            <Typography variant="paragraph" color="error">
+              {state.errorMessage}
+            </Typography>
+          )}
+          <RegisterForm
+            dispatch={dispatch}
+            state={state}
+            actionType={actionType}
+          />
+          <Typography variant="body1" display="block" gutterBottom>
+            已经注册?请
+            {
+              <Link
+                to="/login"
+                style={{ textDecoration: "none", fontWeight: "bold" }}
+              >
+                登陆
+              </Link>
+            }
+          </Typography>
+        </AuthFormContainer>
+      )}
     </main>
   );
 };
