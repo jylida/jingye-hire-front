@@ -1,6 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import Register from "../components/auth/Register";
 import Login from "../components/auth/Login";
+import FindBackKey from "../components/auth/FindBackKey";
 
 const routers = createBrowserRouter([
   {
@@ -10,6 +11,10 @@ const routers = createBrowserRouter([
   {
     path: "login",
     element: <Login />,
+  },
+  {
+    path: "findbackkey",
+    element: <FindBackKey />,
   },
 ]);
 

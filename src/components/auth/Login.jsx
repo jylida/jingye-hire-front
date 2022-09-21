@@ -83,9 +83,15 @@ const Login = () => {
                 </Link>
               }
             </Typography>
-            <Typography variant="body1" display="inline" gutterBottom>
+            <Link
+              to="/findbackkey"
+              style={{
+                textDecoration: "none",
+                fontWeight: "bold",
+              }}
+            >
               忘记密码？
-            </Typography>
+            </Link>
           </section>
         </AuthFormContainer>
       )}
