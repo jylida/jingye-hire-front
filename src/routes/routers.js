@@ -2,6 +2,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Register from "../components/auth/Register";
 import Login from "../components/auth/Login";
 import FindBackKey from "../components/auth/FindBackKey";
+import RequireAuth from "../components/auth/RequireAuth";
 
 const routers = createBrowserRouter([
   {
@@ -15,6 +16,12 @@ const routers = createBrowserRouter([
   {
     path: "findbackkey",
     element: <FindBackKey />,
+  },
+  {
+    element: <RequireAuth />,
+    children: {
+      path: "/",
+    },
   },
 ]);
 
