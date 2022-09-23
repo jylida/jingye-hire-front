@@ -1,7 +1,8 @@
-import { Fragment } from "react";
+import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Paper from "@mui/material/Paper";
+import Pagination from "@mui/material/Pagination";
 import NewsSnippet from "./NewsSnippet";
 
 const NewsFeed = ({
@@ -12,14 +13,15 @@ const NewsFeed = ({
   }),
 }) => {
   return (
-    <Fragment>
+    <Stack direction="column">
       <Typography variant="h5" mb={2} fontWeight="bold">
         最新职位信息
       </Typography>
       <Box
         component={Paper}
         sx={{
-          height: { xs: "75vw", sm: "75vh" },
+          height: { xs: "75vw", sm: "65vh" },
+          marginBottom: "1rem",
           overflow: "scroll",
           display: "flex",
           flexDirection: "column",
@@ -38,7 +40,8 @@ const NewsFeed = ({
           <h1>There is nothing to show</h1>
         )}
       </Box>
-    </Fragment>
+      <Pagination count={10} variant="outlined" color="primary" />
+    </Stack>
   );
 };
 

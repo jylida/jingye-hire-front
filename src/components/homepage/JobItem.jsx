@@ -72,7 +72,15 @@ const JobItem = ({
     >
       <CardHeader
         avatar={
-          <Avatar sx={{ backgroundColor: red[500] }}>
+          <Avatar
+            variant="circular"
+            sx={{
+              backgroundColor: "white",
+              color: "blueviolet",
+              border: "2px solid blueviolet",
+              fontWeight: "bold",
+            }}
+          >
             {title.slice(0, 1)}
           </Avatar>
         }
@@ -99,7 +107,15 @@ const JobItem = ({
                 }
               >
                 <ListItemIcon>
-                  <Avatar>{subjectsNameCn[index].slice(0, 1)}</Avatar>
+                  <Avatar
+                    sx={{
+                      backgroundColor: "white",
+                      color: "blue",
+                      border: "1px solid blue",
+                    }}
+                  >
+                    {subjectsNameCn[index].slice(0, 1)}
+                  </Avatar>
                 </ListItemIcon>
                 <ListItemText
                   primary={subjectsNameCn[index]}
