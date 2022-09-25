@@ -2,8 +2,9 @@ import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
+import axios from "../../api/axios";
 
-const LoginForm = ({ state, dispatch, actionType }) => (
+const LoginForm = ({ state, dispatch, actionType, setAuth }) => (
   <FormControl
     component={Stack}
     spacing={3}
@@ -40,6 +41,52 @@ const LoginForm = ({ state, dispatch, actionType }) => (
       variant="contained"
       sx={{
         paddingY: "1rem",
+      }}
+      onClick={async () => {
+        try {
+          const response = await axios.post(
+            "auth",
+            JSON.stringify({
+              user: state.username,
+              pwd: state.password,
+            }),
+            {
+              headers: { "Content-Type": "application/json" },
+              withCredentials: true,
+            }
+          );
+          console.log(response.data);
+          const accessToken = response?.data?.accessToken;
+          const roles = response?.data?.roles;
+          setAuth({
+            username: state.username,
+            password: state.password,
+            roles,
+            accessToken,
+          });
+        } catch (err) {
+          if (!err.message) {
+            dispatch({
+              type: actionType.setErrorMessage,
+              payload: "No internet response",
+            });
+          } else if (err?.response?.status === 400) {
+            dispatch({
+              type: actionType.setErrorMessage,
+              payload: "Missing username or password",
+            });
+          } else if (err?.response?.status === 401) {
+            dispatch({
+              type: actionType.setErrorMessage,
+              payload: "unauthorized!",
+            });
+          } else {
+            dispatch({
+              type: actionType.setErrorMessage,
+              payload: "Login Failed",
+            });
+          }
+        }
       }}
     >
       登陆

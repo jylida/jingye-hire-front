@@ -4,7 +4,8 @@ import Typography from "@mui/material/Typography";
 import { StyledAuthContainer } from "../styledComponents";
 import AuthFormContainer from "./AuthContainer";
 import LoginForm from "./LoginForm";
-
+import { useContext } from "react";
+import AuthContext from "../../context/authProvider";
 const loginInit = {
   username: "",
   password: "",
@@ -39,11 +40,8 @@ const Login = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const from = location.state?.from?.pathname || "/";
+  const { setAuth } = useContext(AuthContext);
 
-  //   useEffect(dispatch({ type: actionType.setErrorMessage, payload: "" }), [
-  //     state.username,
-  //     state.password,
-  //   ]);
   return (
     <StyledAuthContainer>
       {state.isLoginSuccess ? (
@@ -64,6 +62,7 @@ const Login = () => {
             state={state}
             dispatch={dispatch}
             actionType={actionType}
+            setAuth={setAuth}
           />
           <section
             style={{
