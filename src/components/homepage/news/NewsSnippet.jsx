@@ -28,12 +28,13 @@ const NewsSnippet = ({ news }) => {
         fontWeight="light"
         sx={{ color: "lightgrey" }}
       >
-        {news.date}
+        {`created:${news.createDate}\t`}
+        {news.updateDate && `updated: ${news.updateDate}`}
       </Typography>
       <Typography variant="paragraph" sx={{ color: "gray" }}>
-        {news.body.length < lengthLimit
-          ? news.body
-          : news.body.slice(0, lengthLimit) + "..."}
+        {news.content.length < lengthLimit
+          ? news.content
+          : news.content.slice(0, lengthLimit) + "..."}
       </Typography>
     </Box>
   );
