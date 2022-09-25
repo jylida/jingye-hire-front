@@ -1,6 +1,6 @@
 import axios from "axios";
 const BASE_URL = "http://localhost:3500";
-export default axios.create({
+const api = axios.create({
   baseURL: BASE_URL,
 });
 
@@ -11,3 +11,10 @@ export const axiosPrivate = axios.create({
   },
   withCredentials: true,
 });
+
+export const getHireNewsPostsPage = ({ pageParam = 2 }) => {
+  const response = api.get(`/hirenews?page=${pageParam}`);
+  return response.data;
+};
+
+export default api;

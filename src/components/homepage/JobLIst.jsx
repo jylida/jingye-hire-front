@@ -9,8 +9,8 @@ const JobList = ({ departmentsName }) => (
       </Typography>
     </Grid>
     {departmentsName.map((dpt, index) => (
-      <Grid item xs={12}>
-        <JobItem key={"department-jobItem-" + index} title={dpt} />
+      <Grid key={"department-jobItem-" + index} item xs={12}>
+        <JobItem title={dpt} />
       </Grid>
     ))}
   </Grid>
