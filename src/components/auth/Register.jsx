@@ -1,5 +1,5 @@
 import { useReducer, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import AuthFormContainer from "./AuthContainer";
 import RegisterForm from "./RegisterForm";
@@ -54,6 +54,7 @@ const reducer = (state, action) => {
 
 const Register = () => {
   const [state, dispatch] = useReducer(reducer, registerInit);
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch({
@@ -84,6 +85,13 @@ const Register = () => {
       },
     });
   }, [state.password.content, state.match.content]);
+  useEffect(() => {
+    if (state.isRegisterSuccess) {
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+    }
+  }, [state.isRegisterSuccess]);
 
   return (
     <main

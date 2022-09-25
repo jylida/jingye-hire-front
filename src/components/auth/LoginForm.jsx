@@ -64,6 +64,7 @@ const LoginForm = ({ state, dispatch, actionType, setAuth }) => (
             roles,
             accessToken,
           });
+          dispatch({ type: actionType.setErrorMessage, payload: "" });
         } catch (err) {
           if (!err.message) {
             dispatch({
