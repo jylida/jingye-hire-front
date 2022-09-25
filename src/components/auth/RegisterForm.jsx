@@ -4,6 +4,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import Button from "@mui/material/Button";
 import Check from "@mui/icons-material/Check";
 import Stack from "@mui/material/Stack";
+import axios from "../../api/axios";
 
 const CheckLabel = (condition) => ({
   endAdornment: (
@@ -13,7 +14,7 @@ const CheckLabel = (condition) => ({
   ),
 });
 
-const RegisterForm = ({ state, dispatch, actionType }) => (
+const RegisterForm = ({ state, dispatch, actionType, initState }) => (
   <FormControl
     component={Stack}
     spacing={3}
@@ -122,6 +123,42 @@ const RegisterForm = ({ state, dispatch, actionType }) => (
       variant="contained"
       sx={{
         paddingY: "1rem",
+      }}
+      onClick={async () => {
+        try {
+          const response = await axios.post(
+            "/register",
+            JSON.stringify({
+              user: state.username.content,
+              pwd: state.password.content,
+            }),
+            {
+              headers: {
+                "Content-Type": "application/json",
+              },
+              withCredentials: true,
+            }
+          );
+          console.log(response.data);
+          dispatch({ type: actionType.setIsRegisterSuccess, payload: true });
+        } catch (err) {
+          if (!err.response) {
+            dispatch({
+              type: actionType.setErrorMessage,
+              payload: "No Internet response",
+            });
+          } else if (err.response?.status === 409) {
+            dispatch({
+              type: actionType.setErrorMessage,
+              payload: `username ${state.username.content} has been taken`,
+            });
+          } else {
+            dispatch({
+              type: actionType.setErrorMessage,
+              payload: "registration failed!",
+            });
+          }
+        }
       }}
     >
       注册

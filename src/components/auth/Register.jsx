@@ -115,6 +115,7 @@ const Register = () => {
             dispatch={dispatch}
             state={state}
             actionType={actionType}
+            initState={registerInit}
           />
           <Typography variant="body1" display="block" gutterBottom>
             已经注册?请
