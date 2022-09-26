@@ -6,7 +6,6 @@ import Collapse from "@mui/material/Collapse";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
 import ExpandMoreOutlined from "@mui/icons-material/ExpandMoreOutlined";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";

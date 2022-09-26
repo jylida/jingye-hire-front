@@ -1,17 +1,12 @@
-import { useState, useEffect } from "react";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import Pagination from "@mui/material/Pagination";
-import { useQuery } from "react-query";
 import JobList from "./JobLIst";
 import NewsFeed from "./news/NewsFeed";
-import axios, { getHireNewsPostsPage } from "../../api/axios";
 
-const Content = () => {
+const Content = ({response, state, dispatch, actionType }) => {
   const departmentsName = "初中教学部,高中教学部,其他".split(",");
-  const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(5);
 
   const {
     isLoading,
@@ -20,9 +15,7 @@ const Content = () => {
     data: fetchedData,
     isFetching,
     isPreviousData,
-  } = useQuery("/hirenews", () => getHireNewsPostsPage(page, limit), {
-    keepPreviousData: true,
-  });
+  } = response;
   if (isLoading) return <h1>Loading...</h1>;
   if (isError) return <h1>{error.message}</h1>;
   console.log(fetchedData);
@@ -47,16 +40,18 @@ const Content = () => {
             <JobList departmentsName={departmentsName} />
           </Grid>
           <Grid item xs={12} md={8}>
+            {isFetching?  <h6>Is Fetching...</h6>: (
             <NewsFeed newsList={fetchedData.news} />
+            )}
             <Pagination
               onChange={(event, value) => {
-                setPage(value);
+                dispatch({type: actionType.setPage, payload: value});
               }}
               count={fetchedData.totalPages}
               variant="outlined"
               color="primary"
-              hideNextButton={page === fetchedData.totalPages || isPreviousData}
-              hidePrevButton={page === 1 || isPreviousData}
+              hideNextButton={state.hireNews.page === fetchedData.totalPages || isPreviousData}
+              hidePrevButton={state.hireNews.page === 1 || isPreviousData}
             />
           </Grid>
         </Grid>

@@ -10,7 +10,7 @@ const NewsSnippet = ({ news }) => {
   return (
     <Box
       component={Link}
-      to="../login"
+      to={`/hire/news/${news._id}`}
       sx={{
         padding: "0.5rem",
         // minHeight: "100px",

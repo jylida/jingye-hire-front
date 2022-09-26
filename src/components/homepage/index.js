@@ -1,7 +1,8 @@
+import { Outlet } from "react-router-dom";
 import Stack from "@mui/material/Stack";
 import Header from "./Header";
 import Footer from "./Footer";
-import Content from "./Content";
+// import Content from "./Content";
 
 const HomePage = () => {
   return (
@@ -14,7 +15,7 @@ const HomePage = () => {
       }}
     >
       <Header />
-      <Content />
+      <Outlet />
       <Footer />
     </Stack>
   );

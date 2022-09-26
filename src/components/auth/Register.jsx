@@ -56,6 +56,7 @@ const Register = () => {
   const [state, dispatch] = useReducer(reducer, registerInit);
   const navigate = useNavigate();
 
+
   useEffect(() => {
     dispatch({
       type: actionType.setUser,
