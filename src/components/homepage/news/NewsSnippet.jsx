@@ -1,4 +1,5 @@
 import Box from "@mui/material/Box";
+import { Link } from "react-router-dom";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import useTheme from "@mui/material/styles/useTheme";
 import Typography from "@mui/material/Typography";
@@ -8,7 +9,8 @@ const NewsSnippet = ({ news }) => {
   const lengthLimit = idMiddleDown ? "70" : "140";
   return (
     <Box
-      component="section"
+      component={Link}
+      to="../login"
       sx={{
         padding: "0.5rem",
         // minHeight: "100px",
@@ -18,6 +20,7 @@ const NewsSnippet = ({ news }) => {
         ":last-of-type": {
           borderBottom: "none",
         },
+        textDecoration: "none",
       }}
     >
       <Typography variant="h5" fontWeight="bold">
