@@ -1,4 +1,4 @@
-import {  useReducer } from "react";
+import { useReducer } from "react";
 import { RouterProvider } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getHireNewsPostsPage } from "./api/axios";
@@ -16,7 +16,7 @@ const init = {
   hireNews: {
     page: 1,
     limit: 5,
-  }
+  },
 };
 const actionType = {
   setPage: "setPage",
@@ -24,14 +24,28 @@ const actionType = {
 };
 const reducer = (state, action) => {
   switch (action.type) {
-    case actionType.setPage: return {...state, hireNews: {...state.hireNews, page: action.payload}} ;
-    case actionType.setLimit: return {...state, hireNews: {...state.hireNews, limit: action.payload}};
-    default: throw new Error ("no action type matches the request!");
+    case actionType.setPage:
+      return {
+        ...state,
+        hireNews: { ...state.hireNews, page: action.payload },
+      };
+    case actionType.setLimit:
+      return {
+        ...state,
+        hireNews: { ...state.hireNews, limit: action.payload },
+      };
+    default:
+      throw new Error("no action type matches the request!");
   }
 };
 
 function App() {
   const [state, dispatch] = useReducer(reducer, init);
+  const ROLES_LIST = {
+    Admin: 5150,
+    Editor: 1984,
+    User: 2001,
+  };
 
   const response = useQuery(
     "/hirenews",
@@ -40,9 +54,9 @@ function App() {
       keepPreviousData: true,
     }
   );
-  if (response.isLoading) return (<h1>Is loading...</h1>);
-  if (response.isError) return (<h1>Error: {response.error.message}</h1>);
-  const {data: news} = response;
+  if (response.isLoading) return <h1>Is loading...</h1>;
+  if (response.isError) return <h1>Error: {response.error.message}</h1>;
+  const { data: news } = response;
   const routers = createBrowserRouter([
     {
       path: "hire",
@@ -61,7 +75,7 @@ function App() {
         },
         {
           path: "news/:id",
-          element: <PostPage news={news}/>,
+          element: <PostPage news={news} />,
         },
       ],
     },
@@ -78,11 +92,13 @@ function App() {
       element: <FindBackKey />,
     },
     {
-      element: <RequireAuth allowedRoles={[2001]} />,
-      children: [{
-        path: "apply",
-        element: <ApplyForm />
-      }],
+      element: <RequireAuth allowedRoles={[ROLES_LIST.User]} />,
+      children: [
+        {
+          path: "apply",
+          element: <ApplyForm />,
+        },
+      ],
     },
   ]);
   return <RouterProvider router={routers} />;

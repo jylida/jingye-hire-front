@@ -1,5 +1,5 @@
-import { useReducer, useEffect } from "react";
-import { useLocation, Link, useNavigate } from "react-router-dom";
+import { useReducer } from "react";
+import { Navigate, Link } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import { StyledAuthContainer } from "../styledComponents";
 import AuthFormContainer from "./AuthContainer";
@@ -37,15 +37,7 @@ const reducer = (state, action) => {
 
 const Login = () => {
   const [state, dispatch] = useReducer(reducer, loginInit);
-  const navigate = useNavigate();
-  // const location = useLocation();
-  // const from = location.state?.from?.pathname || "/";
   const { setAuth } = useContext(AuthContext);
-  useEffect(() => {
-    if (state.isLoginSuccess) {
-      navigate("/apply")
-    }
-  }, [state.isLoginSuccess])
 
   return (
     <StyledAuthContainer>
