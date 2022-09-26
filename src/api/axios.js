@@ -12,8 +12,8 @@ export const axiosPrivate = axios.create({
   withCredentials: true,
 });
 
-export const getHireNewsPostsPage = ({ pageParam = 2 }) => {
-  const response = api.get(`/hirenews?page=${pageParam}`);
+export const getHireNewsPostsPage = async ( pageParam = 2 ) => {
+  const response = await api.get(`/hirenews?page=${pageParam}`);
   return response.data;
 };
 
