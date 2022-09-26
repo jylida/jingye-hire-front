@@ -10,46 +10,22 @@ import axios, { getHireNewsPostsPage } from "../../api/axios";
 
 const Content = () => {
   const departmentsName = "初中教学部,高中教学部,其他".split(",");
-  // const [newsList, setNewsList] = useState([]);
   const [page, setPage] = useState(1);
+  const [limit, setLimit] = useState(5);
 
-  // useEffect(() => {
-  //   let isMounted = true;
-  //   const controller = new AbortController();
-
-  //   const getNewsList = async () => {
-  //     try {
-  //       const response = await axios.get("/hirenews", {
-  //         params: {
-  //           query: "{page}",
-  //         },
-  //         signal: controller.signal,
-  //       });
-  //       isMounted && setNewsList(response.data);
-  //     } catch (err) {
-  //       console.error(err.message);
-  //     } finally {
-  //       isMounted = false;
-  //     }
-  //   };
-  //   getNewsList();
-  //   return () => {
-  //     controller.abort();
-  //   };
-  // }, [page]);
   const {
     isLoading,
     isError,
     error,
-    data: fetchedNews,
+    data: fetchedData,
     isFetching,
     isPreviousData,
-  } = useQuery("hirenews", () => getHireNewsPostsPage(), {
+  } = useQuery("/hirenews", () => getHireNewsPostsPage(page, limit), {
     keepPreviousData: true,
   });
   if (isLoading) return <h1>Loading...</h1>;
   if (isError) return <h1>{error.message}</h1>;
-  console.log(fetchedNews);
+  console.log(fetchedData);
   return (
     <Box
       component="main"
@@ -71,12 +47,12 @@ const Content = () => {
             <JobList departmentsName={departmentsName} />
           </Grid>
           <Grid item xs={12} md={8}>
-            <NewsFeed newsList={fetchedNews} />
+            <NewsFeed newsList={fetchedData.news} />
             <Pagination
               onChange={(event, value) => {
                 setPage(value);
               }}
-              count={10}
+              count={fetchedData.totalPages}
               variant="outlined"
               color="primary"
             />
