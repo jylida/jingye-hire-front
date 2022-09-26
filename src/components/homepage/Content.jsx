@@ -55,6 +55,8 @@ const Content = () => {
               count={fetchedData.totalPages}
               variant="outlined"
               color="primary"
+              hideNextButton={page === fetchedData.totalPages || isPreviousData}
+              hidePrevButton={page === 1 || isPreviousData}
             />
           </Grid>
         </Grid>
