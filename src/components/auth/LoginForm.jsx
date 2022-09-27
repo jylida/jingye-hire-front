@@ -64,7 +64,7 @@ const LoginForm = ({ state, dispatch, actionType, setAuth }) => {
             });
             localStorage.setItem(
               "auth",
-              JSON.stringify({ roles, accessToken })
+              JSON.stringify({ roles, accessToken, username: state.username })
             );
             dispatch({ type: actionType.setIsLoginSuccess, payload: true });
             dispatch({ type: actionType.setErrorMessage, payload: "" });

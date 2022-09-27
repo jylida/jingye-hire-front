@@ -1,3 +1,5 @@
+import { useContext } from "react";
+import HireInfoContext from "../../context/hireInfoProvider";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
@@ -5,20 +7,9 @@ import Pagination from "@mui/material/Pagination";
 import JobList from "./JobLIst";
 import NewsFeed from "./news/NewsFeed";
 
-const Content = ({response, state, dispatch, actionType }) => {
+const Content = () => {
   const departmentsName = "初中教学部,高中教学部,其他".split(",");
-
-  const {
-    isLoading,
-    isError,
-    error,
-    data: fetchedData,
-    isFetching,
-    isPreviousData,
-  } = response;
-  if (isLoading) return <h1>Loading...</h1>;
-  if (isError) return <h1>{error.message}</h1>;
-  console.log(fetchedData);
+  const { fetched, page, setPage } = useContext(HireInfoContext);
   return (
     <Box
       component="main"
@@ -40,18 +31,20 @@ const Content = ({response, state, dispatch, actionType }) => {
             <JobList departmentsName={departmentsName} />
           </Grid>
           <Grid item xs={12} md={8}>
-            {isFetching?  <h6>Is Fetching...</h6>: (
-            <NewsFeed newsList={fetchedData.news} />
+            {fetched.news ? (
+              <NewsFeed newsList={fetched.news} />
+            ) : (
+              <h2>Is fetching...</h2>
             )}
             <Pagination
               onChange={(event, value) => {
-                dispatch({type: actionType.setPage, payload: value});
+                setPage(value);
               }}
-              count={fetchedData.totalPages}
+              count={fetched.totalPages}
               variant="outlined"
               color="primary"
-              hideNextButton={state.hireNews.page === fetchedData.totalPages || isPreviousData}
-              hidePrevButton={state.hireNews.page === 1 || isPreviousData}
+              hideNextButton={page === fetched.totalPages}
+              hidePrevButton={page === 1}
             />
           </Grid>
         </Grid>

@@ -3,11 +3,14 @@ import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import ArrowBack from "@mui/icons-material/ArrowBack";
 import { useParams, Link } from "react-router-dom";
+import { useContext } from "react";
+import HireInfoContext from "../../context/hireInfoProvider";
 
-const PostPage = ({ news }) => {
+const PostPage = () => {
+  const { fetched } = useContext(HireInfoContext);
   const { id } = useParams();
-  if (!news) return <h2>Loading...</h2>;
-  const post = news.news.find((nw) => nw._id.toString() === id);
+  if (!fetched.news) return <h2>Loading...</h2>;
+  const post = fetched.news.find((nw) => nw._id.toString() === id);
   return post ? (
     <Container
       maxWidth="md"
