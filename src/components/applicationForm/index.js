@@ -1,11 +1,11 @@
 import FormLayout from "./FormLayout";
-import { FormContextProvider } from "../../context/ApplicationFormProvider";
+import { ApplyFormContextProvider } from "../../context/applyFormProvider";
 
 const ApplyForm = () => {
   return (
-    <FormContextProvider>
+    <ApplyFormContextProvider>
       <FormLayout />
-    </FormContextProvider>
+    </ApplyFormContextProvider>
   );
 };
 

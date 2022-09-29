@@ -4,7 +4,7 @@ const RequireAuth = ({ allowedRoles }) => {
   const auth = JSON.parse(localStorage.getItem("auth"));
   const location = useLocation();
 
-  return auth.roles?.find((role) => allowedRoles?.includes(role)) ? (
+  return auth?.roles?.find((role) => allowedRoles?.includes(role)) ? (
     <Outlet />
   ) : auth?.username ? (
     <Navigate to="/unauthorized" state={{ from: location }} replace />
