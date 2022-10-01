@@ -3,6 +3,7 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
+import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 
 const StyledAuthContainer = styled("main")({
   overflow: "scroll",
@@ -73,5 +74,22 @@ const FormInputs = (props) => {
     </FormItem>
   );
 };
+const FormDateInput = (props) => {
+  return (
+    <FormItem>
+      <DesktopDatePicker
+        {...props}
+        renderInput={(params) => <TextField {...params} />}
+        openTo="year"
+      />
+    </FormItem>
+  );
+};
 
-export { StyledAuthContainer, FormContainer, FormItem, FormInputs };
+export {
+  StyledAuthContainer,
+  FormContainer,
+  FormItem,
+  FormInputs,
+  FormDateInput,
+};
