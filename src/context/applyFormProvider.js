@@ -22,14 +22,6 @@ export const ApplyFormContextProvider = ({ children }) => {
     street: "",
     specific: "",
   });
-  const [eduBg, setEduBg] = useState({
-    from: "",
-    to: "",
-    school: "",
-    schoolCode: null,
-    major: "",
-    Qualification: "",
-  });
   const [eduBgSeq, setEduBgSeq] = useState([]);
   return (
     <ApplyFormContext.Provider
@@ -43,8 +35,6 @@ export const ApplyFormContextProvider = ({ children }) => {
         setContact,
         address,
         setAddress,
-        eduBg,
-        setEduBg,
         eduBgSeq,
         setEduBgSeq,
       }}

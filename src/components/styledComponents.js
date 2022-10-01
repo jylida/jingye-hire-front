@@ -3,6 +3,13 @@ import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import TextField from "@mui/material/TextField";
 import MenuItem from "@mui/material/MenuItem";
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+import Paper from "@mui/material/Paper";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 
 const StyledAuthContainer = styled("main")({
@@ -79,12 +86,46 @@ const FormDateInput = (props) => {
     <FormItem>
       <DesktopDatePicker
         {...props}
-        renderInput={(params) => <TextField {...params} />}
+        renderInput={(params) => (
+          <TextField {...params} sx={{ backgroundColor: "white" }} required />
+        )}
         openTo="year"
       />
     </FormItem>
   );
 };
+const FormTable = ({ columnName, rows }) => (
+  <TableContainer component={Paper}>
+    <Table sx={{ minWidth: 700 }}>
+      <TableHead>
+        {columnName
+          .split(" ")
+          .filter((nm) => (nm ? true : false))
+          .map((clnNm) => (
+            <TableCell
+              align="center"
+              key={`Table-EducationExperience-columnName-${clnNm}`}
+              sx={{ backgroundColor: "black", color: "whitesmoke" }}
+            >
+              {clnNm}
+            </TableCell>
+          ))}
+      </TableHead>
+      <TableBody>
+        {rows.map((background, index) => (
+          <TableRow
+            key={`Table-EducationExperience-Row-${index}`}
+            sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+          >
+            {Object.values(background).map((bg) => (
+              <TableCell align="center">{bg}</TableCell>
+            ))}
+          </TableRow>
+        ))}
+      </TableBody>
+    </Table>
+  </TableContainer>
+);
 
 export {
   StyledAuthContainer,
@@ -92,4 +133,5 @@ export {
   FormItem,
   FormInputs,
   FormDateInput,
+  FormTable,
 };
