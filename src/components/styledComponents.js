@@ -1,6 +1,8 @@
 import styled from "@mui/material/styles/styled";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import MenuItem from "@mui/material/MenuItem";
 
 const StyledAuthContainer = styled("main")({
   overflow: "scroll",
@@ -46,5 +48,30 @@ const FormItem = ({ children }) => (
     {children}
   </Grid>
 );
+const FormInputs = (props) => {
+  const { optionNames, ...others } = props;
+  return (
+    <FormItem>
+      <TextField
+        {...others}
+        required
+        variant={others.variant || "standard"}
+        fullWidth
+      >
+        {others.select &&
+          optionNames
+            .map((nm) => ({ label: nm, value: nm }))
+            .map((option) => (
+              <MenuItem
+                key={`multiPageForm-${others.label}-"${option.label}`}
+                value={option.value}
+              >
+                {option.label}
+              </MenuItem>
+            ))}
+      </TextField>
+    </FormItem>
+  );
+};
 
-export { StyledAuthContainer, FormContainer, FormItem };
+export { StyledAuthContainer, FormContainer, FormItem, FormInputs };

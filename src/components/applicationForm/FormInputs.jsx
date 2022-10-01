@@ -6,9 +6,9 @@ import Work from "./FormSections/Work";
 import Misc from "./FormSections/Misc";
 
 const FormInput = () => {
-  const { state } = useContext(ApplyFormContext);
+  const { page } = useContext(ApplyFormContext);
   const display = [<Personal />, <Education />, <Work />, <Misc />];
-  return display[state.page];
+  return display[page];
 };
 
 export default FormInput;

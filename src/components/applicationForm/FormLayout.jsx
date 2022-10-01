@@ -9,8 +9,7 @@ import FormInput from "./FormInputs";
 import ApplyFormContext from "../../context/applyFormProvider";
 
 const FormLayout = () => {
-  const { state, dispatch, actionType, pageNames } =
-    useContext(ApplyFormContext);
+  const { page, setPage, pageNames } = useContext(ApplyFormContext);
   return (
     <Container maxWidth="lg" sx={{ padding: { xs: "1rem", md: "2rem" } }}>
       <Stack
@@ -39,17 +38,17 @@ const FormLayout = () => {
         >
           <ButtonGroup variant="outlined" color="secondary">
             <Button
-              disabled={state.page === 0}
+              disabled={page === 0}
               onClick={() => {
-                dispatch({ type: actionType.prevPage });
+                setPage((prev) => prev - 1);
               }}
             >
               前页
             </Button>
             <Button
-              disabled={state.page === pageNames.length - 1}
+              disabled={page === pageNames.length - 1}
               onClick={() => {
-                dispatch({ type: actionType.nextPage });
+                setPage((prev) => prev + 1);
               }}
             >
               后页
@@ -59,7 +58,7 @@ const FormLayout = () => {
             提交
           </Button>
         </Box>
-        <Typography variant="caption">{pageNames[state.page]}</Typography>
+        <Typography variant="caption">{pageNames[page]}</Typography>
         <FormInput />
       </Stack>
     </Container>
