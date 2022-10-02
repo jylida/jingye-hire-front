@@ -39,7 +39,7 @@ const Education = () => {
       .filter((nm) => (nm ? true : false));
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Stack>
+      <Stack spacing={{ xs: 2, md: 3 }}>
         <Grid container spacing={2}>
           <FormDateInput
             label="入学时间"
@@ -93,7 +93,6 @@ const Education = () => {
             <Button
               variant="contained"
               type="submit"
-              fullWidth
               disableElevation
               startIcon={<Add />}
               onClick={(e) => {
@@ -116,19 +115,24 @@ const Education = () => {
                 setMajorType("");
                 setMajorName("");
               }}
-              sx={{ height: "100%", minHeight: "3rem" }}
+              sx={{ height: "100%", minHeight: "3rem", maxWidth: "500px" }}
             >
-              添加教育背景
+              添加学位信息
             </Button>
           </FormItem>
         </Grid>
-        {eduBgSeq.length > 0 && (
-          <FormTable
-            columnName="入学时间 毕业时间 学校名称 学位 专业类别 专业名称"
-            rows={eduBgSeq}
-          />
-        )}
       </Stack>
+      {eduBgSeq.length > 0 && (
+        <FormTable
+          columnName="入学时间 毕业时间 学校名称 学位 专业类别 专业名称"
+          rows={eduBgSeq}
+          rowsDeleteHandler={(index) => {
+            const eduBgSeqToRefresh = [...eduBgSeq];
+            eduBgSeqToRefresh.splice(index, 1);
+            setEduBgSeq(eduBgSeqToRefresh);
+          }}
+        />
+      )}
     </LocalizationProvider>
   );
 };

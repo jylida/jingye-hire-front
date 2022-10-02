@@ -11,6 +11,8 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
+import { IconButton } from "@mui/material";
+import { Delete } from "@mui/icons-material";
 
 const StyledAuthContainer = styled("main")({
   overflow: "scroll",
@@ -94,14 +96,16 @@ const FormDateInput = (props) => {
     </FormItem>
   );
 };
-const FormTable = ({ columnName, rows }) => (
-  <TableContainer component={Paper}>
-    <Table sx={{ minWidth: 700 }}>
-      <TableHead>
-        {columnName
-          .split(" ")
-          .filter((nm) => (nm ? true : false))
-          .map((clnNm) => (
+const FormTable = ({ columnName, rows, rowsDeleteHandler }) => {
+  const columnNameArray = columnName
+    .split(" ")
+    .filter((nm) => (nm ? true : false));
+  columnNameArray.unshift(" ");
+  return (
+    <TableContainer component={Paper}>
+      <Table sx={{ minWidth: 700 }}>
+        <TableHead>
+          {columnNameArray.map((clnNm) => (
             <TableCell
               align="center"
               key={`Table-EducationExperience-columnName-${clnNm}`}
@@ -110,22 +114,36 @@ const FormTable = ({ columnName, rows }) => (
               {clnNm}
             </TableCell>
           ))}
-      </TableHead>
-      <TableBody>
-        {rows.map((background, index) => (
-          <TableRow
-            key={`Table-EducationExperience-Row-${index}`}
-            sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-          >
-            {Object.values(background).map((bg) => (
-              <TableCell align="center">{bg}</TableCell>
-            ))}
-          </TableRow>
-        ))}
-      </TableBody>
-    </Table>
-  </TableContainer>
-);
+        </TableHead>
+        <TableBody>
+          {rows.map((background, index) => {
+            const backgroundArray = Object.values(background);
+            backgroundArray.unshift(
+              <IconButton color="error" onClick={rowsDeleteHandler}>
+                <Delete />
+              </IconButton>
+            );
+            return (
+              <TableRow
+                key={`Table-EducationExperience-Row-${index}`}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                {backgroundArray.map((bg, i) => (
+                  <TableCell
+                    align="center"
+                    key={`Table-EducationExperience-Row-${index}-cell-${i}`}
+                  >
+                    {bg}
+                  </TableCell>
+                ))}
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
+    </TableContainer>
+  );
+};
 
 export {
   StyledAuthContainer,
