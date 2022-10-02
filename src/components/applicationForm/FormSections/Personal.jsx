@@ -188,6 +188,7 @@ const Personal = () => {
           label="备用手机号"
           helperText="请确保不同于之前输入的手机号"
           value={contact.phoneSecondary.content}
+          required={false}
           onChange={(e) =>
             setContact((prev) => ({
               ...prev,
@@ -209,6 +210,7 @@ const Personal = () => {
           error={contact.email.content.length > 0 && !contact.email.valid}
           id="id-number-backup"
           label="email"
+          required={false}
           value={contact.email.content}
           onChange={(e) => {
             setContact((prev) => ({

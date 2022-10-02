@@ -62,12 +62,12 @@ const FormItem = (props) => {
   );
 };
 const FormInputs = (props) => {
-  const { optionNames, ...others } = props;
+  const { optionNames, required = true, ...others } = props;
   return (
     <FormItem>
       <TextField
         {...others}
-        required
+        required={required}
         variant={others.variant || "standard"}
         fullWidth
       >

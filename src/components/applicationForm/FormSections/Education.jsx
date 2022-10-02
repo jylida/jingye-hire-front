@@ -17,6 +17,12 @@ import {
 } from "../../styledComponents";
 import ApplyFormContext from "../../../context/applyFormProvider";
 
+const objectRemoveItem = (obj, itemName) => {
+  const objNew = { ...obj };
+  delete objNew[itemName];
+  return objNew;
+};
+
 const init = {
   date: { from: dayjs(new Date()), to: dayjs(new Date()), isValid: false },
   experience: {
@@ -24,7 +30,7 @@ const init = {
     degree: "",
     majorType: "",
     majorName: "",
-    isGraduated: false,
+    isGraduated: undefined,
   },
   valid: false,
   errorMessage: "",
@@ -93,19 +99,13 @@ const Education = () => {
       state.experience.school.length > 0 &&
       state.experience.degree?.length > 0 &&
       state.experience.majorType?.length > 0 &&
+      state.experience.isGraduated !== undefined &&
       state.experience.majorName?.length > 0;
     dispatch({
       type: actionType.setValid,
       payload: isValid,
     });
-  }, [
-    state.date?.from.year(),
-    state.date?.to.year(),
-    state.experience?.school,
-    state.experience?.degree,
-    state.experience?.majorType,
-    state.experience?.majorName,
-  ]);
+  }, [...Object.values(state.date), ...Object.values(state.experience)]);
   useEffect(() => {
     if (state.date?.isValid) {
       dispatch({ type: actionType.setError, payload: "" });
@@ -220,7 +220,10 @@ const Education = () => {
                       type: actionType.setExp,
                       payload: {
                         key: "isGraduated",
-                        value: !state.experience.isGraduated,
+                        value:
+                          state.experience.isGraduated === undefined
+                            ? true
+                            : !state.experience.isGraduated,
                       },
                     });
                   }}
