@@ -53,11 +53,14 @@ const FormContainer = ({ name, children }) => (
     </Grid>
   </fieldset>
 );
-const FormItem = ({ children }) => (
-  <Grid item xs={12} sm={6} md={4} lg={3}>
-    {children}
-  </Grid>
-);
+const FormItem = (props) => {
+  const { children, ...others } = props;
+  return (
+    <Grid {...others} item xs={12} sm={6} md={4} lg={3}>
+      {children}
+    </Grid>
+  );
+};
 const FormInputs = (props) => {
   const { optionNames, ...others } = props;
   return (

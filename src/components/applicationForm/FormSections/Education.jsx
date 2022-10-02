@@ -1,8 +1,14 @@
-import { useContext } from "react";
+import { useContext, useReducer, useEffect } from "react";
+import dayjs from "dayjs";
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Add from "@mui/icons-material/Add";
+import Typography from "@mui/material/Typography";
+import CheckBox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import {
   FormInputs,
   FormItem,
@@ -10,18 +16,59 @@ import {
   FormTable,
 } from "../../styledComponents";
 import ApplyFormContext from "../../../context/applyFormProvider";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { useState } from "react";
-import dayjs from "dayjs";
+
+const init = {
+  date: { from: dayjs(new Date()), to: dayjs(new Date()), isValid: false },
+  experience: {
+    school: "",
+    degree: "",
+    majorType: "",
+    majorName: "",
+    isGraduated: false,
+  },
+  valid: false,
+  errorMessage: "",
+};
+
+const actionType = {
+  setDate: "setDate",
+  setExp: "setExperience",
+  initialize: "initialize",
+  setValid: "setValid",
+  setError: "setError",
+};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case actionType.setDate:
+      return {
+        ...state,
+        date: { ...state.date, [action.payload.key]: action.payload.value },
+      };
+    case actionType.setExp:
+      return {
+        ...state,
+        experience: {
+          ...state.experience,
+          [action.payload.key]: action.payload.value,
+        },
+      };
+    case actionType.setValid:
+      return {
+        ...state,
+        valid: action.payload,
+      };
+    case actionType.initialize:
+      return init;
+    case actionType.setError:
+      return { ...state, errorMessage: action.payload };
+    default:
+      throw new Error(`No action matches required ${action.type}`);
+  }
+};
 
 const Education = () => {
-  const [startDate, setStartDate] = useState(dayjs("2022-04-07"));
-  const [endDate, setEndDate] = useState(dayjs("2022-04-08"));
-  const [school, setSchool] = useState("");
-  const [degree, setDegree] = useState("");
-  const [majorType, setMajorType] = useState("");
-  const [majorName, setMajorName] = useState("");
+  const [state, dispatch] = useReducer(reducer, init);
   const { eduBgSeq, setEduBgSeq } = useContext(ApplyFormContext);
   const degreeNames = "本科,硕士,博士"
     .split(",")
@@ -30,28 +77,95 @@ const Education = () => {
     "文学、历史学、哲学、法学、经济学、管理学、教育学、理学、工学、农学、医学、艺术学、军事学"
       .split("、")
       .filter((nm) => (nm ? true : false));
+  useEffect(() => {
+    dispatch({
+      type: actionType.setDate,
+      payload: {
+        key: "isValid",
+        value:
+          state.date.from < state.date.to && state.date.to < dayjs(new Date()),
+      },
+    });
+  }, [state.date.from, state.date.to]);
+  useEffect(() => {
+    const isValid =
+      state.date.from <= state.date.to &&
+      state.experience.school.length > 0 &&
+      state.experience.degree?.length > 0 &&
+      state.experience.majorType?.length > 0 &&
+      state.experience.majorName?.length > 0;
+    dispatch({
+      type: actionType.setValid,
+      payload: isValid,
+    });
+  }, [
+    state.date?.from.year(),
+    state.date?.to.year(),
+    state.experience?.school,
+    state.experience?.degree,
+    state.experience?.majorType,
+    state.experience?.majorName,
+  ]);
+  useEffect(() => {
+    if (state.date?.isValid) {
+      dispatch({ type: actionType.setError, payload: "" });
+    }
+  }, [state.date.to]);
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Stack spacing={{ xs: 2, md: 3 }}>
-        <Grid container spacing={2}>
+      <Stack spacing={{ xs: 2, md: 3 }} sx={{ width: "100%" }}>
+        {!state.date.isValid && (
+          <Typography
+            color="error"
+            variant="caption"
+            component="h6"
+            fontWeight="bold"
+          >
+            {state.errorMessage}
+          </Typography>
+        )}
+        <Grid container spacing={2} sx={{ width: "100%" }}>
           <FormDateInput
             label="入学时间"
-            onChange={(newValue) => setStartDate(newValue)}
+            onChange={(newValue) =>
+              dispatch({
+                type: actionType.setDate,
+                payload: { key: "from", value: newValue },
+              })
+            }
             views={["year", "month"]}
-            value={startDate}
+            value={state.date.from}
           />
           <FormDateInput
             label="毕业时间"
-            onChange={(newValue) => setEndDate(newValue)}
+            minDate={state.date.from}
+            maxDate={new Date()}
+            onChange={(newValue) =>
+              dispatch({
+                type: actionType.setDate,
+                payload: { key: "to", value: newValue },
+              })
+            }
+            onError={() =>
+              dispatch({
+                type: actionType.setError,
+                payload: "毕业时间不可早于入学时间且不可晚于申请时间",
+              })
+            }
             views={["year", "month"]}
-            value={endDate}
+            value={state.date.to}
           />
           <FormInputs
             variant="outlined"
             required
             label="学校名称"
-            value={school}
-            onChange={(e) => setSchool(e.target.value)}
+            value={state.experience.school}
+            onChange={(e) =>
+              dispatch({
+                type: actionType.setExp,
+                payload: { key: "school", value: e.target.value },
+              })
+            }
             sx={{ backgroundColor: "white" }}
           />
           <FormInputs
@@ -60,8 +174,13 @@ const Education = () => {
             required
             select
             variant="outlined"
-            value={degree}
-            onChange={(e) => setDegree(e.target.value)}
+            value={state.experience.degree}
+            onChange={(e) =>
+              dispatch({
+                type: actionType.setExp,
+                payload: { key: "degree", value: e.target.value },
+              })
+            }
             sx={{ backgroundColor: "white" }}
           />
           <FormInputs
@@ -70,43 +189,72 @@ const Education = () => {
             required
             select
             variant="outlined"
-            value={majorType}
-            onChange={(e) => setMajorType(e.target.value)}
+            value={state.experience.majorType}
+            onChange={(e) =>
+              dispatch({
+                type: actionType.setExp,
+                payload: { key: "majorType", value: e.target.value },
+              })
+            }
             sx={{ backgroundColor: "white" }}
           />
           <FormInputs
             label="专业名称"
             required
             variant="outlined"
-            value={majorName}
-            onChange={(e) => setMajorName(e.target.value)}
+            value={state.experience.majorName}
+            onChange={(e) =>
+              dispatch({
+                type: actionType.setExp,
+                payload: { key: "majorName", value: e.target.value },
+              })
+            }
             sx={{ backgroundColor: "white" }}
           />
+          <FormItem sx={{ display: "flex", placeContent: "center" }}>
+            <FormControlLabel
+              control={
+                <CheckBox
+                  value={state.experience.isGraduated}
+                  onClick={() => {
+                    dispatch({
+                      type: actionType.setExp,
+                      payload: {
+                        key: "isGraduated",
+                        value: !state.experience.isGraduated,
+                      },
+                    });
+                  }}
+                />
+              }
+              label="是否已毕业"
+            />
+          </FormItem>
           <FormItem>
             <Button
               variant="contained"
               type="submit"
               disableElevation
+              disabled={!state.valid}
               startIcon={<Add />}
               onClick={(e) => {
                 e.preventDefault();
                 setEduBgSeq((prev) => [
                   ...prev,
                   {
-                    from: `${startDate.year().toString()}-${
-                      startDate.month() + 1
+                    from: `${state.date.from.year().toString()}-${
+                      state.date.from.month() + 1
                     }`,
-                    to: `${endDate.year().toString()}-${endDate.month() + 1}`,
-                    school,
-                    degree,
-                    majorType,
-                    majorName,
+                    to: `${state.date.to.year().toString()}-${
+                      state.date.to.month() + 1
+                    }`,
+                    school: state.experience.school,
+                    degree: state.experience.degree,
+                    majorType: state.experience.majorType,
+                    majorName: state.experience.majorName,
                   },
                 ]);
-                setSchool("");
-                setDegree("");
-                setMajorType("");
-                setMajorName("");
+                dispatch({ type: actionType.initialize });
               }}
               sx={{ height: "100%", minHeight: "3rem", maxWidth: "500px" }}
             >
