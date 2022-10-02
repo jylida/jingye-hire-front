@@ -23,6 +23,7 @@ export const ApplyFormContextProvider = ({ children }) => {
     specific: "",
   });
   const [eduBgSeq, setEduBgSeq] = useState([]);
+  const [workBgSeq, setWorkBgSeq] = useState([]);
   return (
     <ApplyFormContext.Provider
       value={{
@@ -37,6 +38,8 @@ export const ApplyFormContextProvider = ({ children }) => {
         setAddress,
         eduBgSeq,
         setEduBgSeq,
+        workBgSeq,
+        setWorkBgSeq,
       }}
     >
       {children}

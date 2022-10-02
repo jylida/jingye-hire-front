@@ -105,8 +105,8 @@ const FormTable = ({ columnName, rows, rowsDeleteHandler }) => {
     .filter((nm) => (nm ? true : false));
   columnNameArray.unshift(" ");
   return (
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }}>
+    <TableContainer component={Paper} sx={{ width: "100%" }}>
+      <Table sx={{ minWidth: 500 }}>
         <TableHead>
           {columnNameArray.map((clnNm) => (
             <TableCell
@@ -121,6 +121,7 @@ const FormTable = ({ columnName, rows, rowsDeleteHandler }) => {
         <TableBody>
           {rows.map((background, index) => {
             const backgroundArray = Object.values(background);
+            const numOfColToDisplay = columnNameArray.length;
             backgroundArray.unshift(
               <IconButton color="error" onClick={rowsDeleteHandler}>
                 <Delete />
@@ -131,7 +132,7 @@ const FormTable = ({ columnName, rows, rowsDeleteHandler }) => {
                 key={`Table-EducationExperience-Row-${index}`}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                {backgroundArray.map((bg, i) => (
+                {backgroundArray.slice(0, numOfColToDisplay).map((bg, i) => (
                   <TableCell
                     align="center"
                     key={`Table-EducationExperience-Row-${index}-cell-${i}`}
