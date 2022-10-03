@@ -10,5 +10,18 @@ const politicalBackgroundName =
   "中共党员,中共预备党员,共青团员,民革党员,民盟盟员,民建会员,民进会员,农工党党员,致公党党员,九三学社社员,台盟盟员,无党派人士,群众"
     .split(",")
     .filter((nm) => (nm ? true : false));
+const degreeNames = "本科,硕士,博士"
+  .split(",")
+  .filter((nm) => (nm ? true : false));
+const majorGeneralNames =
+  "文学、历史学、哲学、法学、经济学、管理学、教育学、理学、工学、农学、医学、艺术学、军事学"
+    .split("、")
+    .filter((nm) => (nm ? true : false));
 
-export { districtsName, ethicalGroupNames, politicalBackgroundName };
+export {
+  districtsName,
+  ethicalGroupNames,
+  politicalBackgroundName,
+  degreeNames,
+  majorGeneralNames,
+};

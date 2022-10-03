@@ -5,7 +5,7 @@ import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
-import FormInput from "./FormInputs";
+import FormInput from "./FormInput";
 import ApplyFormContext from "../../context/applyFormProvider";
 
 const FormLayout = () => {
