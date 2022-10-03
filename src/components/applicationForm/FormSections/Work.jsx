@@ -109,7 +109,7 @@ const Work = () => {
             {state.errorMessage}
           </Typography>
         )}
-        <Grid container spacing={2} sx={{ width: "100%" }}>
+        <Grid container spacing={2} sx={{ width: "100%", paddingRight: 2 }}>
           <FormDateInput
             label="入职时间"
             onChange={(newValue) =>

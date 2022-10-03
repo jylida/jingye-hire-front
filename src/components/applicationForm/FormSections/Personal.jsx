@@ -7,8 +7,15 @@ const NumOnly_REG = /^\d+$/;
 const Email_REG = /^[A-z0-9.-]+@[A-z0-9.-]+\.[A-z]{2,4}$/;
 
 const Personal = () => {
-  const { personal, setPersonal, contact, setContact, address, setAddress } =
-    useContext(ApplyFormContext);
+  const {
+    personal,
+    setPersonal,
+    contact,
+    setContact,
+    address,
+    setAddress,
+    setErrMsg,
+  } = useContext(ApplyFormContext);
   const districtsName =
     "新城区 赛罕区 回民区 玉泉区 土默特左旗 托克托县 和林格尔县 清水河县 武川县 如意开发区 金川开发区"
       .split(" ")
@@ -134,6 +141,13 @@ const Personal = () => {
               IDCard: { ...prev.IDCard, content: e.target.value },
             }))
           }
+          onBlur={(e) => {
+            const msg =
+              personal.IDCard.content.length > 0 && !personal?.IDCard?.valid
+                ? "请输入正确的身份证号码"
+                : "";
+            setErrMsg(msg);
+          }}
         />
         <FormInputs
           required

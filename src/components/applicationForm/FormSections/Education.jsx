@@ -99,7 +99,6 @@ const Education = () => {
       state.experience.school.length > 0 &&
       state.experience.degree?.length > 0 &&
       state.experience.majorType?.length > 0 &&
-      state.experience.isGraduated !== undefined &&
       state.experience.majorName?.length > 0;
     dispatch({
       type: actionType.setValid,
@@ -124,7 +123,7 @@ const Education = () => {
             {state.errorMessage}
           </Typography>
         )}
-        <Grid container spacing={2} sx={{ width: "100%" }}>
+        <Grid container spacing={2} sx={{ width: "100%", paddingRight: 2 }}>
           <FormDateInput
             label="入学时间"
             onChange={(newValue) =>
@@ -220,16 +219,13 @@ const Education = () => {
                       type: actionType.setExp,
                       payload: {
                         key: "isGraduated",
-                        value:
-                          state.experience.isGraduated === undefined
-                            ? true
-                            : !state.experience.isGraduated,
+                        value: !state.experience.isGraduated,
                       },
                     });
                   }}
                 />
               }
-              label="是否已毕业"
+              label="已毕业"
             />
           </FormItem>
           <FormItem>

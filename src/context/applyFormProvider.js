@@ -1,7 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 
 const ApplyFormContext = createContext();
-const pageNames = ["个人信息", "教育背景", "工作经验", "其他"];
+const pageNames = ["个人信息", "教育背景", "工作经验"];
 
 export const ApplyFormContextProvider = ({ children }) => {
   const [page, setPage] = useState(0);
@@ -27,6 +27,7 @@ export const ApplyFormContextProvider = ({ children }) => {
   });
   const [eduBgSeq, setEduBgSeq] = useState([]);
   const [workBgSeq, setWorkBgSeq] = useState([]);
+  const [errMsg, setErrMsg] = useState("");
   const [valid, setValid] = useState(false);
   useEffect(() => {
     setPersonal((prev) => ({
@@ -97,6 +98,8 @@ export const ApplyFormContextProvider = ({ children }) => {
         workBgSeq,
         setWorkBgSeq,
         valid,
+        errMsg,
+        setErrMsg,
       }}
     >
       {children}

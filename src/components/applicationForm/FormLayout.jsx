@@ -9,7 +9,8 @@ import FormInput from "./FormInputs";
 import ApplyFormContext from "../../context/applyFormProvider";
 
 const FormLayout = () => {
-  const { page, setPage, pageNames, valid } = useContext(ApplyFormContext);
+  const { page, setPage, pageNames, valid, errMsg } =
+    useContext(ApplyFormContext);
   return (
     <Container maxWidth="lg" sx={{ padding: { xs: "1rem", md: "2rem" } }}>
       <Stack
@@ -58,7 +59,12 @@ const FormLayout = () => {
             提交
           </Button>
         </Box>
-        <Typography variant="caption">{pageNames[page]}</Typography>
+        <Typography variant="subtitle1">{pageNames[page]}</Typography>
+        {errMsg.length > 0 && (
+          <Typography variant="subtitle2" color="error">
+            {errMsg}
+          </Typography>
+        )}
         <FormInput />
       </Stack>
     </Container>
