@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import ApplyFormContext from "../../context/applyFormProvider";
-import Personal from "./FormSections/Personal";
+import Personal from "./FormSections/personal/index";
 import Education from "./FormSections/Education";
 import Work from "./FormSections/Work";
 

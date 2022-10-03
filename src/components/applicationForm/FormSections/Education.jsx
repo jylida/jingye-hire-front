@@ -9,19 +9,9 @@ import CheckBox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import {
-  FormInputs,
-  FormItem,
-  FormDateInput,
-  FormTable,
-} from "../../styledComponents";
+import { FormInputs, FormItem, FormDateInput } from "../../styledComponents";
+import FormTable from "./utils/FormTable";
 import ApplyFormContext from "../../../context/applyFormProvider";
-
-const objectRemoveItem = (obj, itemName) => {
-  const objNew = { ...obj };
-  delete objNew[itemName];
-  return objNew;
-};
 
 const init = {
   date: { from: dayjs(new Date()), to: dayjs(new Date()), isValid: false },
