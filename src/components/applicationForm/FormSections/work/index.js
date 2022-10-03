@@ -26,7 +26,10 @@ const Work = () => {
   const { workBgSeq, setWorkBgSeq } = useContext(ApplyFormContext);
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <Stack spacing={{ xs: 2, sm: 3, md: 4 }} width="100%">
+      <Stack
+        spacing={{ xs: 2, sm: 3, md: 4 }}
+        sx={{ width: "100%", alignItems: "center" }}
+      >
         <WorkInputFields
           state={state}
           dispatch={dispatch}
@@ -35,7 +38,7 @@ const Work = () => {
         />
         {workBgSeq.length > 0 && (
           <FormTable
-            columnName="入学时间 毕业时间 学校名称 学位 专业类别 专业名称"
+            columnName="入职时间 离职时间 单位 职位 具体内容 离职原因"
             rows={workBgSeq}
             rowsDeleteHandler={(index) => {
               const workBgSeqToRefresh = [...workBgSeq];

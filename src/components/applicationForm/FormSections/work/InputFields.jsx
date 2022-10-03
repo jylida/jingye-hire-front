@@ -36,7 +36,7 @@ const WorkInputFields = ({ state, dispatch, actionType, init }) => {
     state.experience.specific,
   ]);
   return (
-    <Grid container spacing={2} sx={{ width: "100%", paddingRight: 2 }}>
+    <Grid container spacing={2} sx={{ width: "100%" }}>
       <FormDateInput
         label="入职时间"
         onChange={(newValue) =>
@@ -98,7 +98,7 @@ const WorkInputFields = ({ state, dispatch, actionType, init }) => {
           fullWidth
           required
           error={state?.experience?.specific?.length > 140}
-          label={"详情 (少于140字)"}
+          label="详情 (少于140字)"
           multiline
           maxRows={5}
           value={state.experience.specific}
@@ -109,7 +109,6 @@ const WorkInputFields = ({ state, dispatch, actionType, init }) => {
               payload: { key: "specific", value: e.target.value },
             });
           }}
-          _
         />
       </Grid>
       <Grid item xs={12} sm={6}>

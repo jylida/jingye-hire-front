@@ -56,7 +56,7 @@ const FormLayout = () => {
             </Button>
           </ButtonGroup>
           <Button variant="contained" color="error" disabled={!valid}>
-            提交
+            提交入职申请
           </Button>
         </Box>
         <Typography variant="subtitle1">{pageNames[page]}</Typography>

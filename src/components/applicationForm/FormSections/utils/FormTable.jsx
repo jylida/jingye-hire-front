@@ -16,36 +16,38 @@ const FormTable = ({ columnName, rows, rowsDeleteHandler }) => {
     <TableContainer component={Paper} sx={{ width: "100%" }}>
       <Table sx={{ minWidth: 500 }}>
         <TableHead>
-          {columnNameArray.map((clnNm) => (
-            <TableCell
-              align="center"
-              key={`Table-EducationExperience-columnName-${clnNm}`}
-              sx={{ backgroundColor: "black", color: "whitesmoke" }}
-            >
-              {clnNm}
-            </TableCell>
-          ))}
+          <TableRow>
+            {columnNameArray.map((clnNm) => (
+              <TableCell
+                align="center"
+                key={`Table-EducationExperience-columnName-${clnNm}`}
+                sx={{ backgroundColor: "black", color: "whitesmoke" }}
+              >
+                {clnNm}
+              </TableCell>
+            ))}
+          </TableRow>
         </TableHead>
         <TableBody>
           {rows.map((background, index) => {
             const backgroundArray = Object.values(background);
             const numOfColToDisplay = columnNameArray.length;
-            backgroundArray.unshift(
-              <IconButton color="error" onClick={rowsDeleteHandler}>
-                <Delete />
-              </IconButton>
-            );
             return (
               <TableRow
                 key={`Table-EducationExperience-Row-${index}`}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
+                <TableCell align="center">
+                  <IconButton color="error" onClick={rowsDeleteHandler}>
+                    <Delete />
+                  </IconButton>
+                </TableCell>
                 {backgroundArray.slice(0, numOfColToDisplay).map((bg, i) => (
                   <TableCell
                     align="center"
                     key={`Table-EducationExperience-Row-${index}-cell-${i}`}
                   >
-                    {bg}
+                    {bg.toString()}
                   </TableCell>
                 ))}
               </TableRow>

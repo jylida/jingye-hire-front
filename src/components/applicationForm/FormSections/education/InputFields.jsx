@@ -6,11 +6,10 @@ import CheckBox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { FormInputs, FormItem, FormDateInput } from "../../../styledComponents";
 import ApplyFormContext from "../../../../context/applyFormProvider";
-
 import { degreeNames, majorGeneralNames } from "../utils/options";
 
 const EducationInputsFields = ({ state, dispatch, actionType, init }) => {
-  const { setEduBgSeq, setErrMsg } = useContext(ApplyFormContext);
+  const { setEduBgSeq } = useContext(ApplyFormContext);
   const today = new Date();
   useEffect(() => {
     dispatch({
@@ -34,7 +33,7 @@ const EducationInputsFields = ({ state, dispatch, actionType, init }) => {
     });
   }, [...Object.values(state.date), ...Object.values(state.experience)]);
   return (
-    <Grid container spacing={2} sx={{ width: "100%", paddingRight: 2 }}>
+    <Grid container spacing={2} sx={{ width: "100%" }}>
       <FormDateInput
         label="入学时间"
         onChange={(newValue) =>
@@ -43,7 +42,6 @@ const EducationInputsFields = ({ state, dispatch, actionType, init }) => {
             payload: { key: "from", value: newValue },
           })
         }
-        onError={() => setErrMsg("入学时间不应晚于申请日")}
         views={["year", "month"]}
         value={state.date.from}
       />
