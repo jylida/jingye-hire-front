@@ -29,6 +29,10 @@ export const ApplyFormContextProvider = ({ children }) => {
   const [workBgSeq, setWorkBgSeq] = useState([]);
   const [errMsg, setErrMsg] = useState("");
   const [valid, setValid] = useState(false);
+  const [success, setSuccess] = useState({
+    status: false,
+    id: "",
+  });
   useEffect(() => {
     setPersonal((prev) => ({
       ...prev,
@@ -100,6 +104,8 @@ export const ApplyFormContextProvider = ({ children }) => {
         valid,
         errMsg,
         setErrMsg,
+        success,
+        setSuccess,
       }}
     >
       {children}
