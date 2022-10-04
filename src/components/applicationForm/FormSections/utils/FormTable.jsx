@@ -7,14 +7,22 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import { IconButton } from "@mui/material";
 import { Delete } from "@mui/icons-material";
-const FormTable = ({ columnName, rows, rowsDeleteHandler }) => {
+const FormTable = ({
+  columnName,
+  rows,
+  rowsDeleteHandler,
+  deletable,
+  size,
+}) => {
   const columnNameArray = columnName
     .split(" ")
     .filter((nm) => (nm ? true : false));
-  columnNameArray.unshift(" ");
+  if (deletable) {
+    columnNameArray.unshift(" ");
+  }
   return (
     <TableContainer component={Paper} sx={{ width: "100%" }}>
-      <Table sx={{ minWidth: 500 }}>
+      <Table size={size} sx={{ minWidth: 500 }}>
         <TableHead>
           <TableRow>
             {columnNameArray.map((clnNm) => (
@@ -37,17 +45,19 @@ const FormTable = ({ columnName, rows, rowsDeleteHandler }) => {
                 key={`Table-EducationExperience-Row-${index}`}
                 sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
               >
-                <TableCell align="center">
-                  <IconButton color="error" onClick={rowsDeleteHandler}>
-                    <Delete />
-                  </IconButton>
-                </TableCell>
+                {deletable && (
+                  <TableCell align="center">
+                    <IconButton color="error" onClick={rowsDeleteHandler}>
+                      <Delete />
+                    </IconButton>
+                  </TableCell>
+                )}
                 {backgroundArray.slice(0, numOfColToDisplay).map((bg, i) => (
                   <TableCell
                     align="center"
                     key={`Table-EducationExperience-Row-${index}-cell-${i}`}
                   >
-                    {bg.toString()}
+                    {typeof bg === "object" ? bg : bg.toString()}
                   </TableCell>
                 ))}
               </TableRow>

@@ -45,6 +45,7 @@ const Work = () => {
               workBgSeqToRefresh.splice(index, 1);
               setWorkBgSeq(workBgSeqToRefresh);
             }}
+            deletable
           />
         )}
       </Stack>

@@ -8,8 +8,9 @@ const applySubmitHandler = async (
   setErrMsg,
   setSuccess
 ) => {
-  const username = JSON.parse(localStorage.getItem("auth")).username;
+  const { username, roles } = JSON.parse(localStorage.getItem("auth"));
   const submitted = {
+    roles: roles,
     basic: {
       name: personal.name.content,
       username: username,

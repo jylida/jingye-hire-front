@@ -66,23 +66,18 @@ const FormLayout = () => {
               justifyContent: "space-between",
             }}
           >
-            <ButtonGroup variant="outlined" color="secondary">
-              <Button
-                disabled={page === 0}
-                onClick={() => {
-                  setPage((prev) => prev - 1);
-                }}
-              >
-                前页
-              </Button>
-              <Button
-                disabled={page === pageNames.length - 1}
-                onClick={() => {
-                  setPage((prev) => prev + 1);
-                }}
-              >
-                后页
-              </Button>
+            <ButtonGroup variant="outlined" color="primary">
+              {pageNames.map((nm, i) => (
+                <Button
+                  disableElevation
+                  variant={page === i ? "contained" : "outlined"}
+                  onClick={() => {
+                    setPage(i);
+                  }}
+                >
+                  {nm}
+                </Button>
+              ))}
             </ButtonGroup>
             <Button
               variant="contained"
@@ -104,7 +99,9 @@ const FormLayout = () => {
               提交入职申请
             </Button>
           </Box>
-          <Typography variant="subtitle1">{pageNames[page]}</Typography>
+          <Typography variant="subtitle1">
+            {pageNames[page] + " (带*为必填项)"}
+          </Typography>
           {errMsg.length > 0 && (
             <Typography variant="subtitle2" color="error">
               {errMsg}

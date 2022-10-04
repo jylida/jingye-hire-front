@@ -1,22 +1,22 @@
 import { createContext, useEffect, useState } from "react";
 
 const ApplyFormContext = createContext();
-const pageNames = ["个人信息", "教育背景", "工作经验"];
+const pageNames = ["个人信息", "教育背景", "工作经验", "预览"];
 
 export const ApplyFormContextProvider = ({ children }) => {
   const [page, setPage] = useState(0);
   const [personal, setPersonal] = useState({
-    name: { content: "", valid: false },
-    gender: { content: "" },
-    IDCard: { content: "", valid: false },
-    ethics: { content: "" },
-    politics: { content: "" },
+    name: { content: "", valid: false, compulsory: true },
+    gender: { content: "", compulsory: true },
+    IDCard: { content: "", valid: false, compulsory: true },
+    ethics: { content: "", compulsory: true },
+    politics: { content: "", compulsory: true },
     valid: false,
   });
   const [contact, setContact] = useState({
-    phone: { content: "", valid: false },
-    phoneSecondary: { content: "", valid: false },
-    email: { content: "", valid: false },
+    phone: { content: "", valid: false, compulsory: true },
+    phoneSecondary: { content: "", valid: false, compulsory: false },
+    email: { content: "", valid: false, compulsory: false },
     valid: false,
   });
   const [address, setAddress] = useState({

@@ -45,6 +45,7 @@ const Education = () => {
               eduBgSeqToRefresh.splice(index, 1);
               setEduBgSeq(eduBgSeqToRefresh);
             }}
+            deletable
           />
         )}
       </Stack>
