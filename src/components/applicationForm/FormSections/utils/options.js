@@ -17,6 +17,13 @@ const majorGeneralNames =
   "文学、历史学、哲学、法学、经济学、管理学、教育学、理学、工学、农学、医学、艺术学、军事学"
     .split("、")
     .filter((nm) => (nm ? true : false));
+const subjectNames =
+  "语文 数学 英语 物理 政治 化学 历史  生物 地理 体育 美术 音乐 微机 劳技 其他"
+    .split(" ")
+    .filter((nm) => (nm ? true : false));
+const departmentNames = "初中教学部 高中教学部 总务处 德育处 其他"
+  .split(" ")
+  .filter((nm) => (nm ? true : false));
 
 export {
   districtsName,
@@ -24,4 +31,6 @@ export {
   politicalBackgroundName,
   degreeNames,
   majorGeneralNames,
+  subjectNames,
+  departmentNames,
 };

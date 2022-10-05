@@ -2,6 +2,7 @@ import Stack from "@mui/material/Stack";
 import PersonalBasic from "./Basic";
 import PersonalContact from "./Contact";
 import PersonalAddress from "./Address";
+import PersonalJob from "./Job";
 
 const Personal = () => (
   <Stack
@@ -12,6 +13,7 @@ const Personal = () => (
     <PersonalBasic />
     <PersonalContact />
     <PersonalAddress />
+    <PersonalJob />
   </Stack>
 );
 

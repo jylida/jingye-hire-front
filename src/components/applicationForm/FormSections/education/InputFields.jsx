@@ -118,6 +118,7 @@ const EducationInputsFields = ({ state, dispatch, actionType, init }) => {
         <FormControlLabel
           control={
             <CheckBox
+              checked={state.experience.isGraduated}
               onClick={() => {
                 dispatch({
                   type: actionType.setExp,

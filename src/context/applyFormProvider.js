@@ -25,6 +25,14 @@ export const ApplyFormContextProvider = ({ children }) => {
     specific: "",
     valid: false,
   });
+  const [job, setJob] = useState({
+    isLecturer: false,
+    department: "",
+    subject: "",
+    certificate: "",
+    specific: "",
+    valid: false,
+  });
   const [eduBgSeq, setEduBgSeq] = useState([]);
   const [workBgSeq, setWorkBgSeq] = useState([]);
   const [errMsg, setErrMsg] = useState("");
@@ -33,6 +41,7 @@ export const ApplyFormContextProvider = ({ children }) => {
     status: false,
     id: "",
   });
+  const [lodged, setLodged] = useState({});
   useEffect(() => {
     setPersonal((prev) => ({
       ...prev,
@@ -75,6 +84,7 @@ export const ApplyFormContextProvider = ({ children }) => {
       personal.valid &&
         contact.valid &&
         address.valid &&
+        job.valid &&
         eduBgSeq.length > 0 &&
         workBgSeq.length > 0
     );
@@ -82,6 +92,7 @@ export const ApplyFormContextProvider = ({ children }) => {
     personal.valid,
     contact.valid,
     address.valid,
+    job.valid,
     eduBgSeq.length,
     workBgSeq.length,
   ]);
@@ -101,11 +112,15 @@ export const ApplyFormContextProvider = ({ children }) => {
         setEduBgSeq,
         workBgSeq,
         setWorkBgSeq,
+        job,
+        setJob,
         valid,
         errMsg,
         setErrMsg,
         success,
         setSuccess,
+        lodged,
+        setLodged,
       }}
     >
       {children}

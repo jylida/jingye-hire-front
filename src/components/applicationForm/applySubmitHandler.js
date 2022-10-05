@@ -6,7 +6,8 @@ const applySubmitHandler = async (
   eduBgSeq,
   workBgSeq,
   setErrMsg,
-  setSuccess
+  setSuccess,
+  job
 ) => {
   const { username, roles } = JSON.parse(localStorage.getItem("auth"));
   const submitted = {
@@ -24,6 +25,11 @@ const applySubmitHandler = async (
       addressDistrict: address.district,
       addressStreet: address.street,
       addressSpecific: address.specific,
+      isLecturer: job.isLecturer,
+      subject: job.subject,
+      tqc: job.certificate,
+      department: job.department,
+      jobSpecific: job.specific,
     },
     education: [...eduBgSeq],
     work: [...workBgSeq],

@@ -56,11 +56,13 @@ const LoginForm = ({ state, dispatch, actionType, setAuth }) => {
             console.log(response.data);
             const accessToken = response?.data?.accessToken;
             const roles = response?.data?.roles;
+            const progress = response?.data?.progress;
             setAuth({
               username: state.username,
               password: state.password,
               roles,
               accessToken,
+              progress,
             });
             localStorage.setItem(
               "auth",
