@@ -48,12 +48,13 @@ const FormLayout = () => {
       >
         <Stack
           direction="row"
-          sx={{ width: "100%", justifyContent: "space-between" }}
+          sx={{
+            width: "100%",
+            marginBottom: { xs: "1rem", sm: "2rem", md: "3rem" },
+            justifyContent: "space-between",
+          }}
         >
-          <Typography
-            variant="h4"
-            sx={{ fontWeight: "bold", margin: "1rem 0" }}
-          >
+          <Typography variant="h4" sx={{ fontWeight: "bold", margin: "0" }}>
             申请表格
           </Typography>
           <LogoutButton setAuth={setAuth} />
