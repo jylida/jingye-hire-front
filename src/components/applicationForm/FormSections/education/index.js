@@ -16,6 +16,8 @@ const init = {
     majorType: "",
     majorName: "",
     isGraduated: false,
+    certificateGraduation: null,
+    certificateDegree: null,
   },
   valid: false,
   errorMessage: "",

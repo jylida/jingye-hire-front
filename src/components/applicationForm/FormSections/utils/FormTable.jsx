@@ -21,7 +21,7 @@ const FormTable = ({
     columnNameArray.unshift(" ");
   }
   return (
-    <TableContainer component={Paper} sx={{ width: "100%" }}>
+    <TableContainer component={Paper} elevation={0} sx={{ width: "100%" }}>
       <Table size={size} sx={{ minWidth: 500 }}>
         <TableHead>
           <TableRow>
@@ -38,7 +38,14 @@ const FormTable = ({
         </TableHead>
         <TableBody>
           {rows.map((background, index) => {
-            const backgroundArray = Object.values(background);
+            const backgroundWithoutFiles = {
+              ...background,
+              certificateGraduate: background.certificateGraduation
+                ? true
+                : false,
+              certificateDegree: background.certificateDegree ? true : false,
+            };
+            const backgroundArray = Object.values(backgroundWithoutFiles);
             const numOfColToDisplay = columnNameArray.length;
             return (
               <TableRow
@@ -52,14 +59,19 @@ const FormTable = ({
                     </IconButton>
                   </TableCell>
                 )}
-                {backgroundArray.slice(0, numOfColToDisplay).map((bg, i) => (
-                  <TableCell
-                    align="center"
-                    key={`Table-EducationExperience-Row-${index}-cell-${i}`}
-                  >
-                    {typeof bg === "object" ? bg : bg.toString()}
-                  </TableCell>
-                ))}
+                {backgroundArray
+                  .slice(
+                    0,
+                    deletable ? numOfColToDisplay - 1 : numOfColToDisplay
+                  )
+                  .map((bg, i) => (
+                    <TableCell
+                      align="center"
+                      key={`Table-EducationExperience-Row-${index}-cell-${i}`}
+                    >
+                      {typeof bg === "object" ? bg : bg.toString()}
+                    </TableCell>
+                  ))}
               </TableRow>
             );
           })}

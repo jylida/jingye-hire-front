@@ -57,10 +57,10 @@ const Summary = () => {
     new SummaryRow("具体地址*", address.specific, address.specific.length > 0),
     new SummaryRow("是否申请教职*", job.isLecturer, true),
     job.isLecturer &&
-      new SummaryRow("学科", job.subject, job.subject.length > 0),
+      new SummaryRow("学科*", job.subject, job.subject.length > 0),
     job.isLecturer &&
       new SummaryRow(
-        "教师资格证编号",
+        "教师资格证编号*",
         job.certificate,
         job.certificate.length > 0
       ),

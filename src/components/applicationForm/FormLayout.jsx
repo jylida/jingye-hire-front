@@ -12,6 +12,7 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import ApplyStatus from "./ApplyStatus";
 import ApplyFeedBack from "./ApplyFeedback";
 import LogoutButton from "./FormSections/utils/LogoutButton";
+import { LocalGasStationRounded } from "@mui/icons-material";
 
 const FormLayout = () => {
   const {
@@ -30,8 +31,8 @@ const FormLayout = () => {
     setSuccess,
     job,
   } = useContext(ApplyFormContext);
-  const { auth, setAuth } = useContext(AuthContext);
   const axiosPrivate = useAxiosPrivate();
+  const { progress } = JSON.parse(localStorage.getItem("auth"));
   return (
     <Container maxWidth="lg" sx={{ padding: { xs: "1rem", md: "2rem" } }}>
       <Stack
@@ -57,14 +58,14 @@ const FormLayout = () => {
           <Typography variant="h4" sx={{ fontWeight: "bold", margin: "0" }}>
             申请表格
           </Typography>
-          <LogoutButton setAuth={setAuth} />
+          <LogoutButton />
         </Stack>
-        {auth?.progress?.length > 0 ? (
-          <ApplyStatus progress={auth.progress} />
+        {progress?.length > 0 ? (
+          <ApplyStatus progress={progress} />
         ) : success.status ? (
           <ApplyFeedBack applyNum={success.id} phone={contact.phone.content} />
         ) : (
-          <Stack spacing={{ xs: 1, sm: 2, md: 3 }}>
+          <Stack spacing={{ xs: 1, sm: 2, md: 3 }} sx={{ width: "100%" }}>
             <Stack
               spacing={{ xs: 2, sm: 0 }}
               sx={{

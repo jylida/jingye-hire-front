@@ -57,6 +57,7 @@ const LoginForm = ({ state, dispatch, actionType, setAuth }) => {
             const accessToken = response?.data?.accessToken;
             const roles = response?.data?.roles;
             const progress = response?.data?.progress;
+            console.log(progress);
             setAuth({
               username: state.username,
               password: state.password,
@@ -66,7 +67,12 @@ const LoginForm = ({ state, dispatch, actionType, setAuth }) => {
             });
             localStorage.setItem(
               "auth",
-              JSON.stringify({ roles, accessToken, username: state.username })
+              JSON.stringify({
+                roles,
+                accessToken,
+                username: state.username,
+                progress: progress,
+              })
             );
             dispatch({ type: actionType.setIsLoginSuccess, payload: true });
             dispatch({ type: actionType.setErrorMessage, payload: "" });

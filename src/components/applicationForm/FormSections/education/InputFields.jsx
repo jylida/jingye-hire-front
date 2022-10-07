@@ -7,6 +7,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import { FormInputs, FormItem, FormDateInput } from "../../../styledComponents";
 import ApplyFormContext from "../../../../context/applyFormProvider";
 import { degreeNames, majorGeneralNames } from "../utils/options";
+import UploadFile from "../utils/UploadFile";
 
 const EducationInputsFields = ({ state, dispatch, actionType, init }) => {
   const { setEduBgSeq } = useContext(ApplyFormContext);
@@ -19,7 +20,7 @@ const EducationInputsFields = ({ state, dispatch, actionType, init }) => {
         value: state.date.from < state.date.to,
       },
     });
-  }, [state.date.from, state.date.to]);
+  }, [state.date.from, state.date.to, actionType.setDate, dispatch]);
   useEffect(() => {
     const isValid =
       state.date.from <= state.date.to &&
@@ -31,7 +32,16 @@ const EducationInputsFields = ({ state, dispatch, actionType, init }) => {
       type: actionType.setValid,
       payload: isValid,
     });
-  }, [...Object.values(state.date), ...Object.values(state.experience)]);
+  }, [
+    state.date.from,
+    state.date.to,
+    state.experience.school,
+    state.experience.degree,
+    state.experience.majorType,
+    state.experience.majorName,
+    dispatch,
+    actionType.setValid,
+  ]);
   return (
     <Grid container spacing={2} sx={{ width: "100%" }}>
       <FormDateInput
@@ -133,6 +143,64 @@ const EducationInputsFields = ({ state, dispatch, actionType, init }) => {
           label="已毕业"
         />
       </FormItem>
+      {state.experience.isGraduated && (
+        <Grid item xs={12}>
+          <UploadFile
+            name="毕业证"
+            fileName={state.experience?.certificateGraduation?.name}
+            message="请上传您的毕业证扫描件. 文件的大小请勿大于2MB, 且文件只接受 jpeg、jpg、以及 png 格式."
+            isUploaded={state.experience.certificateGraduation ? true : false}
+            acceptedExtensionArray=".jpeg,.jpg,.png"
+            uploader={(e) => {
+              dispatch({
+                type: actionType.setExp,
+                payload: {
+                  key: "certificateGraduation",
+                  value: e.target.files[0],
+                },
+              });
+            }}
+            onDelete={() =>
+              dispatch({
+                type: actionType.setExp,
+                payload: {
+                  key: "certificateGraduation",
+                  value: null,
+                },
+              })
+            }
+          />
+        </Grid>
+      )}
+      {state.experience.isGraduated && (
+        <Grid item xs={12}>
+          <UploadFile
+            name="学位证"
+            fileName={state.experience?.certificateDegree?.name}
+            message="请上传您的学位证扫描件. 文件的大小请勿大于2MB, 且文件只接受 jpeg、jpg、以及 png 格式."
+            isUploaded={state.experience.certificateDegree ? true : false}
+            acceptedExtensionArray=".jpeg,.jpg,.png"
+            uploader={(e) => {
+              dispatch({
+                type: actionType.setExp,
+                payload: {
+                  key: "certificateDegree",
+                  value: e.target.files[0],
+                },
+              });
+            }}
+            onDelete={() =>
+              dispatch({
+                type: actionType.setExp,
+                payload: {
+                  key: "certificateDegree",
+                  value: null,
+                },
+              })
+            }
+          />
+        </Grid>
+      )}
       <FormItem>
         <Button
           variant="contained"
@@ -156,6 +224,8 @@ const EducationInputsFields = ({ state, dispatch, actionType, init }) => {
                 majorType: state.experience.majorType,
                 majorName: state.experience.majorName,
                 isGraduated: state.experience.isGraduated,
+                certificateGraduation: state.experience.certificateGraduation,
+                certificateDegree: state.experience.certificateDegree,
               },
             ]);
             dispatch({ type: actionType.initialize, payload: init });
