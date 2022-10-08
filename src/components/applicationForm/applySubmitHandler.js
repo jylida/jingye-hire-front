@@ -10,6 +10,32 @@ const applySubmitHandler = async (
   job
 ) => {
   const { username, roles } = JSON.parse(localStorage.getItem("auth"));
+  const formData = new FormData();
+  if (eduBgSeq.length > 0) {
+    eduBgSeq.forEach((bg, index) => {
+      if (bg.certificateDegree && bg.certificateGraduation) {
+        const certDegExt = bg.certificateDegree.name.split(".").pop();
+        const certGradExt = bg.certificateGraduation.name.split(".").pop();
+        const certificateGraduationNewName = `${username}_cert_graduate_${index}_${new Date()
+          .toDateString()
+          .replaceAll(" ", "_")}.${certGradExt}`;
+        const certificateDegreeNewName = `${username}_cert_degree_${index}_${new Date()
+          .toDateString()
+          .replaceAll(" ", "_")}.${certDegExt}`;
+        formData.append(
+          bg.certificateGraduation.name,
+          bg.certificateGraduation,
+          certificateGraduationNewName
+        );
+        formData.append(
+          bg.certificateDegree.name,
+          bg.certificateDegree,
+          certificateDegreeNewName
+        );
+      }
+    });
+  }
+
   const submitted = {
     roles: roles,
     basic: {
@@ -45,11 +71,11 @@ const applySubmitHandler = async (
         withCredentials: true,
       }
     );
-    console.log(response.status, response.data);
-    if (response.status === 201) {
-      setErrMsg("");
-      setSuccess({ status: true, id: response.data.id });
-    }
+    await axiosPrivate.post("/upload", formData, {
+      withCredentials: true,
+    });
+    setErrMsg("");
+    setSuccess({ status: true, id: response.data.id });
   } catch (err) {
     if (!err?.message) {
       setErrMsg("no internet response");

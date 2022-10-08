@@ -6,13 +6,11 @@ import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import FormInput from "./FormInput";
 import ApplyFormContext from "../../context/applyFormProvider";
-import AuthContext from "../../context/authProvider";
 import applySubmitHandler from "./applySubmitHandler";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import ApplyStatus from "./ApplyStatus";
 import ApplyFeedBack from "./ApplyFeedback";
 import LogoutButton from "./FormSections/utils/LogoutButton";
-import { LocalGasStationRounded } from "@mui/icons-material";
 
 const FormLayout = () => {
   const {

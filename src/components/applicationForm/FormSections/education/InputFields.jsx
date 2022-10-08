@@ -10,7 +10,7 @@ import { degreeNames, majorGeneralNames } from "../utils/options";
 import UploadFile from "../utils/UploadFile";
 
 const EducationInputsFields = ({ state, dispatch, actionType, init }) => {
-  const { setEduBgSeq } = useContext(ApplyFormContext);
+  const { setEduBgSeq, setErrMsg } = useContext(ApplyFormContext);
   const today = new Date();
   useEffect(() => {
     dispatch({
@@ -21,6 +21,7 @@ const EducationInputsFields = ({ state, dispatch, actionType, init }) => {
       },
     });
   }, [state.date.from, state.date.to, actionType.setDate, dispatch]);
+
   useEffect(() => {
     const isValid =
       state.date.from <= state.date.to &&
@@ -210,25 +211,46 @@ const EducationInputsFields = ({ state, dispatch, actionType, init }) => {
           startIcon={<Add />}
           onClick={(e) => {
             e.preventDefault();
-            setEduBgSeq((prev) => [
-              ...prev,
-              {
-                from: `${state.date.from.year().toString()}-${
-                  state.date.from.month() + 1
-                }`,
-                to: `${state.date.to.year().toString()}-${
-                  state.date.to.month() + 1
-                }`,
-                school: state.experience.school,
-                degree: state.experience.degree,
-                majorType: state.experience.majorType,
-                majorName: state.experience.majorName,
-                isGraduated: state.experience.isGraduated,
-                certificateGraduation: state.experience.certificateGraduation,
-                certificateDegree: state.experience.certificateDegree,
-              },
-            ]);
-            dispatch({ type: actionType.initialize, payload: init });
+            const exts = [
+              state.experience.certificateDegree.name,
+              state.experience.certificateGraduation.name,
+            ].map((name) => name.split(".").pop());
+            if (
+              exts.reduce(
+                (prev, current) => prev && "jpg,jpeg,png".includes(current),
+                true
+              )
+            ) {
+              setEduBgSeq((prev) => [
+                ...prev,
+                {
+                  from: `${state.date.from.year().toString()}-${
+                    state.date.from.month() + 1
+                  }`,
+                  to: `${state.date.to.year().toString()}-${
+                    state.date.to.month() + 1
+                  }`,
+                  school: state.experience.school,
+                  degree: state.experience.degree,
+                  majorType: state.experience.majorType,
+                  majorName: state.experience.majorName,
+                  isGraduated: state.experience.isGraduated,
+                  certificateGraduation: state.experience.certificateGraduation,
+                  certificateDegree: state.experience.certificateDegree,
+                },
+              ]);
+              dispatch({ type: actionType.initialize, payload: init });
+            } else {
+              setErrMsg("请上传格式正确的文件！");
+              dispatch({
+                type: actionType.setExp,
+                payload: { key: "certificateGraduation", value: null },
+              });
+              dispatch({
+                type: actionType.setExp,
+                payload: { key: "certificateDegree", value: null },
+              });
+            }
           }}
           sx={{ height: "100%", minHeight: "3rem", maxWidth: "500px" }}
         >

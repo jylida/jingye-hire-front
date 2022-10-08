@@ -96,6 +96,9 @@ export const ApplyFormContextProvider = ({ children }) => {
     eduBgSeq.length,
     workBgSeq.length,
   ]);
+  useEffect(() => {
+    setErrMsg("");
+  }, [eduBgSeq.length, workBgSeq.length]);
   return (
     <ApplyFormContext.Provider
       value={{
