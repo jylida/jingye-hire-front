@@ -1,4 +1,4 @@
-import { useContext, useReducer } from "react";
+import { useContext, useEffect, useReducer } from "react";
 import EducationInputsFields from "./InputFields";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -25,7 +25,40 @@ const init = {
 
 const Education = () => {
   const [state, dispatch] = useReducer(reducer, init);
-  const { eduBgSeq, setEduBgSeq } = useContext(ApplyFormContext);
+  const { eduBgSeq, setEduBgSeq, setErrMsg } = useContext(ApplyFormContext);
+
+  useEffect(() => {
+    const errorMessage =
+      state.date.from >= state.date.to ? `毕业时间不应早于入学时间` : "";
+    setErrMsg(errorMessage);
+    dispatch({
+      type: actionType.setDate,
+      payload: {
+        key: "isValid",
+        value: state.date.from < state.date.to,
+      },
+    });
+  }, [state.date.from, state.date.to, setErrMsg]);
+
+  useEffect(() => {
+    const isValid =
+      state.date.isValid &&
+      state.experience.school.length > 0 &&
+      state.experience.degree?.length > 0 &&
+      state.experience.majorType?.length > 0 &&
+      state.experience.majorName?.length > 0;
+    dispatch({
+      type: actionType.setValid,
+      payload: isValid,
+    });
+  }, [
+    state.date.isValid,
+    state.experience.school,
+    state.experience.degree,
+    state.experience.majorType,
+    state.experience.majorName,
+    dispatch,
+  ]);
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Stack

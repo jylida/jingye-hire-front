@@ -1,4 +1,4 @@
-import { useContext, useReducer } from "react";
+import { useContext, useReducer, useEffect } from "react";
 import WorkInputFields from "./InputFields";
 import { LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
@@ -23,7 +23,39 @@ const init = {
 
 const Work = () => {
   const [state, dispatch] = useReducer(reducer, init);
-  const { workBgSeq, setWorkBgSeq } = useContext(ApplyFormContext);
+  const { workBgSeq, setWorkBgSeq, setErrMsg } = useContext(ApplyFormContext);
+  useEffect(() => {
+    dispatch({
+      type: actionType.setDate,
+      payload: {
+        key: "isValid",
+        value:
+          state?.date?.from < state?.date?.to &&
+          state?.date?.to < dayjs(new Date()),
+      },
+    });
+    const errorMessage =
+      state?.date?.from <= state?.date?.to
+        ? ""
+        : "工作结束时间不应早于开始时间";
+    setErrMsg(errorMessage);
+  }, [state.date.from, state.date.to, setErrMsg]);
+  useEffect(() => {
+    dispatch({
+      type: actionType.setExp,
+      payload: {
+        key: "isValid",
+        value:
+          state?.experience?.place?.length > 0 &&
+          state?.experience?.title?.length > 0 &&
+          state?.experience?.specific?.length > 0,
+      },
+    });
+  }, [
+    state.experience.place,
+    state.experience.title,
+    state.experience.specific,
+  ]);
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <Stack

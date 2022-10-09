@@ -35,6 +35,7 @@ export const ApplyFormContextProvider = ({ children }) => {
   });
   const [eduBgSeq, setEduBgSeq] = useState([]);
   const [workBgSeq, setWorkBgSeq] = useState([]);
+
   const [errMsg, setErrMsg] = useState("");
   const [valid, setValid] = useState(false);
   const [success, setSuccess] = useState({
@@ -42,6 +43,7 @@ export const ApplyFormContextProvider = ({ children }) => {
     id: "",
   });
   const [lodged, setLodged] = useState({});
+
   useEffect(() => {
     setPersonal((prev) => ({
       ...prev,
@@ -52,7 +54,13 @@ export const ApplyFormContextProvider = ({ children }) => {
         prev.ethics.content.length > 0 &&
         prev.politics.content.length > 0,
     }));
-  }, [...Object.values(personal).slice(0, -1)]);
+  }, [
+    personal.name.content,
+    personal.gender.content,
+    personal.IDCard.content,
+    personal.ethics.content,
+    personal.politics.content,
+  ]);
   useEffect(() => {
     setContact((prev) => ({
       ...prev,
@@ -69,7 +77,11 @@ export const ApplyFormContextProvider = ({ children }) => {
           ? false
           : true),
     }));
-  }, [...Object.values(contact).slice(0, -1)]);
+  }, [
+    contact.phone.content,
+    contact.phoneSecondary.content,
+    contact.email.content,
+  ]);
   useEffect(() => {
     setAddress((prev) => ({
       ...prev,
@@ -78,15 +90,32 @@ export const ApplyFormContextProvider = ({ children }) => {
         prev.street.length > 0 &&
         prev.specific.length > 0,
     }));
-  }, [...Object.values(address).slice(0, -1)]);
+  }, [address.district, address.street, address.specific]);
+  useEffect(() => {
+    let status = job.department.length > 0 && job.specific.length > 0;
+    if (job.isLecturer) {
+      status = status && job.certificate.length > 0 && job.subject.length > 0;
+    }
+    setJob((prev) => ({
+      ...prev,
+      valid: status,
+    }));
+  }, [
+    job.department,
+    job.specific,
+    job.certificate,
+    job.subject,
+    job.isLecturer,
+    setJob,
+  ]);
+
   useEffect(() => {
     setValid(
       personal.valid &&
         contact.valid &&
         address.valid &&
         job.valid &&
-        eduBgSeq.length > 0 &&
-        workBgSeq.length > 0
+        eduBgSeq.length > 0
     );
   }, [
     personal.valid,
@@ -94,7 +123,6 @@ export const ApplyFormContextProvider = ({ children }) => {
     address.valid,
     job.valid,
     eduBgSeq.length,
-    workBgSeq.length,
   ]);
   useEffect(() => {
     setErrMsg("");

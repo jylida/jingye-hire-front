@@ -1,4 +1,4 @@
-import { useEffect, useContext } from "react";
+import { useContext } from "react";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import CheckBox from "@mui/material/Checkbox";
 import { FormContainer, FormInputs, FormItem } from "../../../styledComponents";
@@ -7,23 +7,6 @@ import { subjectNames, departmentNames } from "../utils/options";
 
 const PersonalJob = () => {
   const { job, setJob } = useContext(ApplyFormContext);
-  useEffect(() => {
-    let status = job.department.length > 0 && job.specific.length > 0;
-    if (job.isLecturer) {
-      status = status && job.certificate.length > 0 && job.subject.length > 0;
-    }
-    setJob((prev) => ({
-      ...prev,
-      valid: status,
-    }));
-  }, [
-    job.department,
-    job.specific,
-    job.certificate,
-    job.subject,
-    job.isLecturer,
-    setJob,
-  ]);
   return (
     <FormContainer name="申请工作信息">
       <FormItem>

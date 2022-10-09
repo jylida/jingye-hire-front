@@ -5,7 +5,7 @@ import checkEmailValid from "../utils/checkEmailValid";
 import ApplyFormContext from "../../../../context/applyFormProvider";
 
 const PersonalContact = () => {
-  const { contact, setContact } = useContext(ApplyFormContext);
+  const { contact, setContact, setErrMsg } = useContext(ApplyFormContext);
   useEffect(() => {
     setContact((prev) => ({
       ...prev,
@@ -49,6 +49,13 @@ const PersonalContact = () => {
             phone: { ...prev.phone, content: e.target.value },
           }))
         }
+        onBlur={(e) => {
+          const msg =
+            contact.phone.content.length > 0 && !contact.phone.valid
+              ? "请输入正确的手机号"
+              : "";
+          setErrMsg(msg);
+        }}
       />
       <FormInputs
         error={
@@ -58,7 +65,7 @@ const PersonalContact = () => {
         }
         id="id-number-backup"
         label="备用手机号"
-        helperText="请确保不同于之前输入的手机号"
+        helperText={"请确保不同于之前输入的手机号"}
         value={contact.phoneSecondary.content}
         required={false}
         onChange={(e) =>

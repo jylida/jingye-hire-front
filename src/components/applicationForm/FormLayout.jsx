@@ -82,6 +82,7 @@ const FormLayout = () => {
                     variant={page === i ? "contained" : "outlined"}
                     onClick={() => {
                       setPage(i);
+                      setErrMsg("");
                     }}
                   >
                     {nm}

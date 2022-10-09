@@ -1,5 +1,4 @@
-import { useContext, useEffect } from "react";
-import dayjs from "dayjs";
+import { useContext } from "react";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Add from "@mui/icons-material/Add";
@@ -8,33 +7,6 @@ import { FormInputs, FormItem, FormDateInput } from "../../../styledComponents";
 import ApplyFormContext from "../../../../context/applyFormProvider";
 const WorkInputFields = ({ state, dispatch, actionType, init }) => {
   const { setWorkBgSeq } = useContext(ApplyFormContext);
-  useEffect(() => {
-    dispatch({
-      type: actionType.setDate,
-      payload: {
-        key: "isValid",
-        value:
-          state?.date?.from < state?.date?.to &&
-          state?.date?.to < dayjs(new Date()),
-      },
-    });
-  }, [state.date.from, state.date.to]);
-  useEffect(() => {
-    dispatch({
-      type: actionType.setExp,
-      payload: {
-        key: "isValid",
-        value:
-          state?.experience?.place?.length > 0 &&
-          state?.experience?.title?.length > 0 &&
-          state?.experience?.specific?.length > 0,
-      },
-    });
-  }, [
-    state.experience.place,
-    state.experience.title,
-    state.experience.specific,
-  ]);
   return (
     <Grid container spacing={2} sx={{ width: "100%" }}>
       <FormDateInput

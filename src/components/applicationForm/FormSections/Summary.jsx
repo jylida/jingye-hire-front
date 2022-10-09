@@ -76,7 +76,7 @@ const Summary = () => {
       `共 ${workBgSeq.length} 条`,
       workBgSeq.length > 0
     ),
-  ];
+  ].filter((row) => row);
   return <FormTable columnName={tableHead} rows={rows} size="small" />;
 };
 

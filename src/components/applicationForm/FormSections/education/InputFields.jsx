@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react";
+import { useContext } from "react";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Add from "@mui/icons-material/Add";
@@ -8,41 +8,10 @@ import { FormInputs, FormItem, FormDateInput } from "../../../styledComponents";
 import ApplyFormContext from "../../../../context/applyFormProvider";
 import { degreeNames, majorGeneralNames } from "../utils/options";
 import UploadFile from "../utils/UploadFile";
+import handleAddEdBg from "./handleAddEduBg";
 
 const EducationInputsFields = ({ state, dispatch, actionType, init }) => {
   const { setEduBgSeq, setErrMsg } = useContext(ApplyFormContext);
-  const today = new Date();
-  useEffect(() => {
-    dispatch({
-      type: actionType.setDate,
-      payload: {
-        key: "isValid",
-        value: state.date.from < state.date.to,
-      },
-    });
-  }, [state.date.from, state.date.to, actionType.setDate, dispatch]);
-
-  useEffect(() => {
-    const isValid =
-      state.date.from <= state.date.to &&
-      state.experience.school.length > 0 &&
-      state.experience.degree?.length > 0 &&
-      state.experience.majorType?.length > 0 &&
-      state.experience.majorName?.length > 0;
-    dispatch({
-      type: actionType.setValid,
-      payload: isValid,
-    });
-  }, [
-    state.date.from,
-    state.date.to,
-    state.experience.school,
-    state.experience.degree,
-    state.experience.majorType,
-    state.experience.majorName,
-    dispatch,
-    actionType.setValid,
-  ]);
   return (
     <Grid container spacing={2} sx={{ width: "100%" }}>
       <FormDateInput
@@ -59,7 +28,6 @@ const EducationInputsFields = ({ state, dispatch, actionType, init }) => {
       <FormDateInput
         label="毕业时间"
         minDate={state.date.from}
-        maxDate={`${today.getFullYear()}-08-01`}
         onChange={(newValue) =>
           dispatch({
             type: actionType.setDate,
@@ -209,49 +177,14 @@ const EducationInputsFields = ({ state, dispatch, actionType, init }) => {
           disableElevation
           disabled={!state.valid}
           startIcon={<Add />}
-          onClick={(e) => {
-            e.preventDefault();
-            const exts = [
-              state.experience.certificateDegree.name,
-              state.experience.certificateGraduation.name,
-            ].map((name) => name.split(".").pop());
-            if (
-              exts.reduce(
-                (prev, current) => prev && "jpg,jpeg,png".includes(current),
-                true
-              )
-            ) {
-              setEduBgSeq((prev) => [
-                ...prev,
-                {
-                  from: `${state.date.from.year().toString()}-${
-                    state.date.from.month() + 1
-                  }`,
-                  to: `${state.date.to.year().toString()}-${
-                    state.date.to.month() + 1
-                  }`,
-                  school: state.experience.school,
-                  degree: state.experience.degree,
-                  majorType: state.experience.majorType,
-                  majorName: state.experience.majorName,
-                  isGraduated: state.experience.isGraduated,
-                  certificateGraduation: state.experience.certificateGraduation,
-                  certificateDegree: state.experience.certificateDegree,
-                },
-              ]);
-              dispatch({ type: actionType.initialize, payload: init });
-            } else {
-              setErrMsg("请上传格式正确的文件！");
-              dispatch({
-                type: actionType.setExp,
-                payload: { key: "certificateGraduation", value: null },
-              });
-              dispatch({
-                type: actionType.setExp,
-                payload: { key: "certificateDegree", value: null },
-              });
-            }
-          }}
+          onClick={handleAddEdBg(
+            state,
+            dispatch,
+            actionType,
+            setEduBgSeq,
+            setErrMsg,
+            init
+          )}
           sx={{ height: "100%", minHeight: "3rem", maxWidth: "500px" }}
         >
           添加学位信息
