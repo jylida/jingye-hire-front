@@ -7,6 +7,11 @@ import { useNavigate } from "react-router-dom";
 
 const LoginForm = ({ state, dispatch, actionType, setAuth }) => {
   const navigate = useNavigate();
+  const ROLES_LIST = {
+    Admin: 5150,
+    Editor: 1984,
+    User: 2001,
+  };
   return (
     <FormControl component={Stack} spacing={3}>
       <TextField
@@ -17,7 +22,7 @@ const LoginForm = ({ state, dispatch, actionType, setAuth }) => {
         onChange={(e) => {
           dispatch({
             type: actionType.setUser,
-            payload: e.target.value,
+            payload: e.target.value.toLowerCase(),
           });
         }}
       />
@@ -77,7 +82,14 @@ const LoginForm = ({ state, dispatch, actionType, setAuth }) => {
             dispatch({ type: actionType.setIsLoginSuccess, payload: true });
             dispatch({ type: actionType.setErrorMessage, payload: "" });
             console.log("login successfully");
-            navigate("/apply");
+            if (
+              roles.includes(ROLES_LIST.Admin) ||
+              roles.includes(ROLES_LIST.Editor)
+            ) {
+              navigate("/review");
+            } else {
+              navigate("/apply");
+            }
           } catch (err) {
             if (!err.message) {
               dispatch({

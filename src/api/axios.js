@@ -12,8 +12,10 @@ export const axiosPrivate = axios.create({
   withCredentials: true,
 });
 
-export const getHireNewsPostsPage = async ( pageParam = 1, limitParam = 5 ) => {
-  const response = await api.get(`/hirenews?page=${pageParam}&limit=${limitParam}`);
+export const getHireNewsPostsPage = async (pageParam = 1, limitParam = 5) => {
+  const response = await api.get(
+    `/hirenews?page=${pageParam}&limit=${limitParam}`
+  );
   return response.data;
 };
 

@@ -9,6 +9,10 @@ import HomePageContent from "./components/homepage/Content";
 import PostPage from "./components/homepage/PostPage";
 import ApplyForm from "./components/applicationForm";
 import { HireInfoProvider } from "./context/hireInfoProvider";
+import ApplicationReview from "./components/applicationReview";
+import { ApplyReviewProvider } from "./context/applyReviewProvider";
+import ApplicationList from "./components/applicationReview/ApplicationList";
+import ApplicationPost from "./components/applicationReview/ApplicationPost";
 
 function App() {
   const ROLES_LIST = {
@@ -54,6 +58,31 @@ function App() {
         {
           path: "apply",
           element: <ApplyForm />,
+        },
+      ],
+    },
+    {
+      element: (
+        <RequireAuth allowedRoles={[ROLES_LIST.Editor, ROLES_LIST.Admin]} />
+      ),
+      children: [
+        {
+          path: "review",
+          element: (
+            <ApplyReviewProvider>
+              <ApplicationReview />
+            </ApplyReviewProvider>
+          ),
+          children: [
+            {
+              path: "",
+              element: <ApplicationList />,
+            },
+            {
+              path: ":id",
+              element: <ApplicationPost />,
+            },
+          ],
         },
       ],
     },

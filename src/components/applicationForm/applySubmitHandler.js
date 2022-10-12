@@ -22,16 +22,20 @@ const applySubmitHandler = async (
         const certificateDegreeNewName = `${username}_cert_degree_${index}_${new Date()
           .toDateString()
           .replaceAll(" ", "_")}.${certDegExt}`;
-        formData.append(
-          bg.certificateGraduation.name,
-          bg.certificateGraduation,
-          certificateGraduationNewName
-        );
-        formData.append(
-          bg.certificateDegree.name,
-          bg.certificateDegree,
-          certificateDegreeNewName
-        );
+        if (bg.certificateGraduation) {
+          formData.append(
+            bg.certificateGraduation.name,
+            bg.certificateGraduation,
+            certificateGraduationNewName
+          );
+        }
+        if (bg.certificateDegree) {
+          formData.append(
+            bg.certificateDegree.name,
+            bg.certificateDegree,
+            certificateDegreeNewName
+          );
+        }
       }
     });
   }
@@ -60,6 +64,7 @@ const applySubmitHandler = async (
     education: [...eduBgSeq],
     work: [...workBgSeq],
   };
+
   try {
     const response = await axiosPrivate.post(
       "/apply",
@@ -71,9 +76,12 @@ const applySubmitHandler = async (
         withCredentials: true,
       }
     );
-    await axiosPrivate.post("/upload", formData, {
-      withCredentials: true,
-    });
+
+    if (eduBgSeq.reduce((prev, curr) => prev || curr.isGraduated, false)) {
+      await axiosPrivate.post("/upload", formData, {
+        withCredentials: true,
+      });
+    }
     setErrMsg("");
     setSuccess({ status: true, id: response.data.id });
   } catch (err) {
