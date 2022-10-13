@@ -78,7 +78,7 @@ const applySubmitHandler = async (
     );
 
     if (eduBgSeq.reduce((prev, curr) => prev || curr.isGraduated, false)) {
-      await axiosPrivate.post("/upload", formData, {
+      await axiosPrivate.post(`/upload/${username}`, formData, {
         withCredentials: true,
       });
     }

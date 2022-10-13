@@ -1,10 +1,15 @@
-import { useContext } from "react";
-import { useParams } from "react-router-dom";
+import { useContext, useState } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import fileDownload from "js-file-download";
 import Stack from "@mui/material/Stack";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
 import ApplyReviewContext from "../../context/applyReviewProvider";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import InfoCard from "./InfoCard";
@@ -20,6 +25,10 @@ import {
 const ApplicationPost = () => {
   const axiosPrivate = useAxiosPrivate();
   const { id } = useParams();
+  const [feedback, setFeedback] = useState(undefined);
+  const [updated, setUpdated] = useState(false);
+  const [errMsg, setErrMsg] = useState("");
+  const navigate = useNavigate();
   const { fetched } = useContext(ApplyReviewContext);
   const application = fetched?.applications?.find(
     (application) => application._id === id
@@ -40,12 +49,33 @@ const ApplicationPost = () => {
     });
     fileDownload(response.data, fileName);
   };
+  const handleFeedback = async () => {
+    try {
+      await axiosPrivate.put(`/apply/${application.username}`, {
+        status: feedback,
+      });
+      setUpdated(true);
+    } catch (err) {
+      setErrMsg(err.message);
+    }
+  };
   return (
-    <Stack direction="column" spacing={{ xs: 1, sm: 2, md: 3 }}>
-      <Typography
-        variant="h5"
-        fontWeight="bold"
-      >{`姓名: ${application.name}`}</Typography>
+    <Stack direction="column" spacing={{ xs: 1, sm: 2 }}>
+      <Stack
+        direction="row"
+        justifyContent="flex-start"
+        spacing={{ xs: 3, sm: 4 }}
+      >
+        <Typography variant="h6">{`姓名: ${application.name}`}</Typography>
+        <Button
+          variant="contained"
+          size="small"
+          onClick={() => navigate("..")}
+          sx={{ paddingY: 0 }}
+        >
+          返回上一页
+        </Button>
+      </Stack>
       <Typography
         variant="overline"
         color="text.secondary"
@@ -96,18 +126,86 @@ const ApplicationPost = () => {
           </Grid>
         )}
         <Grid item xs={12} md={4}>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() =>
-              handleDownload(
-                `/download/${application.username}`,
-                `${application.username}.zip`
-              )
-            }
-          >
-            下载个人资料
-          </Button>
+          {application?.uploadFile ? (
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={() =>
+                handleDownload(
+                  `/download/${application.username}`,
+                  `${application.username}.zip`
+                )
+              }
+            >
+              下载个人资料
+            </Button>
+          ) : (
+            <Typography variant="h6" fontWeight="bold" color="info.main">
+              申请者未上传任何资料
+            </Typography>
+          )}
+        </Grid>
+        <Grid item xs={12}>
+          {updated ||
+          ["接受", "拒绝"].includes(
+            application.progress[application.progress.length - 1]
+              .applicationStatus
+          ) ? (
+            <Typography variant="h6" color="success.light">
+              {`申请已处理: ${
+                updated
+                  ? feedback
+                  : application.progress[application.progress.length - 1]
+                      .applicationStatus
+              }`}
+            </Typography>
+          ) : (
+            <Stack
+              direction="row"
+              spacing={{ xs: 2, sm: 3 }}
+              justifyContent="flex-start"
+              alignItems="flex-end"
+            >
+              <FormControl>
+                <FormLabel id="demo-row-radio-buttons-group-label">
+                  {" "}
+                  审核状态
+                </FormLabel>
+                <RadioGroup
+                  row
+                  aria-labelledby="demo-row-radio-buttons-group-label"
+                  name="row-radio-buttons-group"
+                  value={feedback}
+                  onChange={(e) => setFeedback(e.target.value)}
+                >
+                  <FormControlLabel
+                    value="接受"
+                    control={<Radio />}
+                    label="接受"
+                  />
+                  <FormControlLabel
+                    value="拒绝"
+                    control={<Radio />}
+                    label="拒绝"
+                  />
+                </RadioGroup>
+              </FormControl>
+              {feedback && (
+                <Button
+                  variant="contained"
+                  sx={{ maxHeight: "2.5rem" }}
+                  onClick={handleFeedback}
+                >
+                  状态更新
+                </Button>
+              )}
+              {errMsg && (
+                <Typography variant="h6" color="error">
+                  {errMsg}
+                </Typography>
+              )}
+            </Stack>
+          )}
         </Grid>
       </Grid>
     </Stack>

@@ -21,12 +21,16 @@ const WorkTag = ({ work }) => (
       <Typography variant="subtitle2" fontWeight="bold">
         {`工作详情`}
       </Typography>
-      <Typography variant="body2">{work.specific}</Typography>
+      <Typography variant="body2" sx={{ wordWrap: "break-word" }}>
+        {work.specific}
+      </Typography>
       <Typography
         variant="subtitle2"
         fontWeight="bold"
       >{`离职原因 `}</Typography>
-      <Typography variant="body2">{work.reasonOnLeave}</Typography>
+      <Typography variant="body2" sx={{ wordWrap: "break-word" }}>
+        {work.reasonOnLeave}
+      </Typography>
     </Stack>
   </Grid>
 );

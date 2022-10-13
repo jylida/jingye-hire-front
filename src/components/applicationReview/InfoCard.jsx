@@ -30,7 +30,13 @@ const ExpandMore = styled((props) => {
 const InfoCard = ({ title, infoObjArray }) => {
   const [expand, setExpand] = useState(false);
   return (
-    <Grid item xs={12} sm={6} lg={4} sx={{ paddingRight: 2 }}>
+    <Grid
+      item
+      xs={12}
+      sm={expand ? 12 : 6}
+      lg={expand ? 12 : 4}
+      sx={{ paddingRight: 2 }}
+    >
       <Card
         sx={{
           minWidth: "200px",

@@ -30,13 +30,6 @@ const ApplicationItem = ({ application }) => {
       <Typography variant="subtitle1">{`用户名: ${application.username}`}</Typography>
       <Stack direction="row" spacing={{ xs: "0.5rem", sm: "1rem" }}>
         <Chip
-          color="primary"
-          label={
-            application.progress[application.progress.length - 1]
-              .applicationStatus
-          }
-        />
-        <Chip
           variant="outlined"
           color="secondary"
           label={application.department}

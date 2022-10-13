@@ -1,9 +1,12 @@
 import { useContext } from "react";
 import Container from "@mui/material/Container";
+import Stack from "@mui/material/Stack";
 import { useQuery } from "react-query";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import ApplyReviewContext from "../../context/applyReviewProvider";
 import { Outlet } from "react-router-dom";
+import LogoutButton from "../applicationForm/FormSections/utils/LogoutButton";
+import Typography from "@mui/material/Typography";
 
 const getApplicationForm = async (
   pageParam = 1,
@@ -43,7 +46,15 @@ const ApplicationReview = () => {
         minHeight: { xs: "600px", md: "800px" },
       }}
     >
-      <Outlet />
+      <Stack direction="column" spacing={2}>
+        <Stack direction="row" justifyContent="space-between">
+          <Typography variant="h4" fontWeight="bold">
+            申请审理
+          </Typography>
+          <LogoutButton />
+        </Stack>
+        <Outlet />
+      </Stack>
     </Container>
   );
 };
