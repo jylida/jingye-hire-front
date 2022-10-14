@@ -11,8 +11,8 @@ import ApplyForm from "./components/applicationForm";
 import { HireInfoProvider } from "./context/hireInfoProvider";
 import ApplicationReview from "./components/applicationReview";
 import { ApplyReviewProvider } from "./context/applyReviewProvider";
-import ApplicationList from "./components/applicationReview/ApplicationList";
 import ApplicationPost from "./components/applicationReview/ApplicationPost";
+import ApplicationListFeed from "./components/applicationReview/applicationList/ApplicationListFeed";
 
 function App() {
   const ROLES_LIST = {
@@ -76,7 +76,7 @@ function App() {
           children: [
             {
               path: "",
-              element: <ApplicationList />,
+              element: <ApplicationListFeed />,
             },
             {
               path: ":id",

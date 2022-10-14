@@ -1,37 +1,59 @@
 import { useContext } from "react";
-import Container from "@mui/material/Container";
-import Stack from "@mui/material/Stack";
 import { useQuery } from "react-query";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import ApplyReviewContext from "../../context/applyReviewProvider";
 import { Outlet } from "react-router-dom";
-import LogoutButton from "../applicationForm/FormSections/utils/LogoutButton";
-import Typography from "@mui/material/Typography";
-
+import DrawerLayout from "./DrawerLayout";
 const getApplicationForm = async (
   pageParam = 1,
   limitParam = 10,
-  axiosPrivate
+  axiosPrivate,
+  isLecturer = null,
+  handled = null,
+  subject,
+  department
 ) => {
-  const response = await axiosPrivate.get(
-    `/apply?page=${pageParam}&limit=${limitParam}`
-  );
+  let queryUrl = `/apply?page=${pageParam}&limit=${limitParam}`;
+  if (isLecturer && isLecturer !== "all") {
+    queryUrl += `&isLecturer=${isLecturer}`;
+  }
+  if (handled && handled !== "all") {
+    queryUrl += `&handled=${handled}`;
+  }
+  if (subject && subject !== "all") {
+    queryUrl += `&subject=${subject}`;
+  }
+  if (department && department !== "all") {
+    queryUrl += `&department=${department}`;
+  }
+  console.log(queryUrl);
+  const response = await axiosPrivate.get(queryUrl);
   return response.data;
 };
 const ApplicationReview = () => {
-  const { page, limit, setFetched } = useContext(ApplyReviewContext);
+  const { page, limit, setFetched, isLecturer, handled, subject, department } =
+    useContext(ApplyReviewContext);
   const axiosPrivate = useAxiosPrivate();
   const {
     isLoading,
     isError,
     error,
     data: fetchedData,
-    isPreviousData,
+    // isPreviousData,
   } = useQuery(
-    ["/apply", page],
-    () => getApplicationForm(page, limit, axiosPrivate),
+    ["/apply", page, isLecturer, handled, subject],
+    () =>
+      getApplicationForm(
+        page,
+        limit,
+        axiosPrivate,
+        isLecturer,
+        handled,
+        subject,
+        department
+      ),
     {
-      keepPreviousData: true,
+      keepPreviousData: false,
     }
   );
   if (isLoading) return <h2>Is loading</h2>;
@@ -39,23 +61,9 @@ const ApplicationReview = () => {
   setFetched(fetchedData);
 
   return (
-    <Container
-      maxWidth="md"
-      sx={{
-        padding: { xs: "1rem", sm: "2rem", md: "3rem" },
-        minHeight: { xs: "600px", md: "800px" },
-      }}
-    >
-      <Stack direction="column" spacing={2}>
-        <Stack direction="row" justifyContent="space-between">
-          <Typography variant="h4" fontWeight="bold">
-            申请审理
-          </Typography>
-          <LogoutButton />
-        </Stack>
-        <Outlet />
-      </Stack>
-    </Container>
+    <DrawerLayout title="申请审理">
+      <Outlet />
+    </DrawerLayout>
   );
 };
 export default ApplicationReview;

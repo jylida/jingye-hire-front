@@ -5,9 +5,10 @@ import Typography from "@mui/material/Typography";
 import { axiosPrivate } from "../../../../api/axios";
 import AuthContext from "../../../../context/authProvider";
 
-const LogoutButton = () => {
+const LogoutButton = (prop) => {
   const { setAuth } = useContext(AuthContext);
   const navigate = useNavigate();
+  const { variant, color, ...others } = prop;
 
   const handleClick = async () => {
     axiosPrivate.post("/logout");
@@ -18,8 +19,9 @@ const LogoutButton = () => {
 
   return (
     <Button
-      variant="contained"
-      color="error"
+      variant={variant || "contained"}
+      color={color || "error"}
+      {...others}
       onClick={handleClick}
       sx={{ paddingY: 0 }}
     >

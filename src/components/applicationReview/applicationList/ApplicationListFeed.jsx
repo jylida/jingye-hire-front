@@ -1,15 +1,23 @@
 import { useContext } from "react";
 import Stack from "@mui/material/Stack";
-import ApplicationItem from "./ApplicationItem";
+import Typography from "@mui/material/Typography";
+import ApplicationItem from "./ApplicationListItem";
 import Pagination from "@mui/material/Pagination";
-import ApplyReviewContext from "../../context/applyReviewProvider";
-const ApplicationList = () => {
+import ApplyReviewContext from "../../../context/applyReviewProvider";
+const ApplicationListFeed = () => {
   const { page, setPage, limit, setLImit, fetched } =
     useContext(ApplyReviewContext);
+  if (fetched.applications.length === 0)
+    return (
+      <Typography variant="h6" fontWeight="bold" color="warning.main">
+        抱歉, 未找到符合搜索条件的申请...
+      </Typography>
+    );
+
   return (
     <Stack
       direction="column"
-      spacing={{ xs: 0.5, sm: 1, md: 1.5 }}
+      spacing={{ xs: 0.5 }}
       elevation={0}
       sx={{
         flexGrow: 1,
@@ -29,7 +37,8 @@ const ApplicationList = () => {
           setPage(value);
         }}
         count={fetched.totalPages}
-        color="secondary"
+        page={page}
+        color="primary"
         hideNextButton={page === fetched.totalPages}
         hidePrevButton={page === 1}
       />
@@ -37,4 +46,4 @@ const ApplicationList = () => {
   );
 };
 
-export default ApplicationList;
+export default ApplicationListFeed;
