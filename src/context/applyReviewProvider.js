@@ -1,17 +1,6 @@
 import { useState, createContext, useReducer } from "react";
 const ApplyReviewContext = createContext();
 
-// const init = { handled: null, isLecturer: null, subject: "", department: "" };
-// const actionType = {
-//   handleFilter: "handleFilter",
-// };
-// const reducer = (state, action) => {
-//   switch (action.type) {
-//     case actionType.handleFilter:
-//       return { ...state, [action.payload.key]: action.payload.value };
-//   }
-// };
-
 export const ApplyReviewProvider = ({ children }) => {
   const [fetched, setFetched] = useState({});
   const [page, setPage] = useState(1);

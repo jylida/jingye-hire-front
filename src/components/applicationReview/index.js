@@ -39,7 +39,7 @@ const ApplicationReview = () => {
     error,
     data: fetchedData,
   } = useQuery(
-    ["apply", page, isLecturer, handled, subject],
+    ["apply", page, limit, isLecturer, handled, subject],
     () =>
       getApplicationForm(
         page,

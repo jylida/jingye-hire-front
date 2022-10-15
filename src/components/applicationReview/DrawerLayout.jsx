@@ -39,7 +39,8 @@ const FilterTitle = ({ title }) => (
 const Main = styled("main", { shouldForwardProp: (prop) => prop !== "open" })(
   ({ theme, open }) => ({
     flexGrow: 1,
-    padding: theme.spacing(3),
+    paddingX: { xs: 0, md: theme.spacing(3) },
+    paddingBottom: theme.spacing(3),
     transition: theme.transitions.create("margin", {
       easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
@@ -233,7 +234,9 @@ export default function DrawerLayout({ title, children }) {
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
-        <Container maxWidth="md">{children}</Container>
+        <Container maxWidth="md" sx={{ padding: { xs: 0, sm: "1rem" } }}>
+          {children}
+        </Container>
       </Main>
     </Box>
   );
