@@ -1,7 +1,12 @@
 import { createContext, useEffect, useState } from "react";
 
 const ApplyFormContext = createContext();
-const pageNames = ["个人信息", "教育背景", "工作经验", "预览"];
+const pageNames = [
+  { name: "个人信息", required: true },
+  { name: "教育背景", required: true },
+  { name: "工作经验", required: false },
+  { name: "总结", required: false },
+];
 
 export const ApplyFormContextProvider = ({ children }) => {
   const [page, setPage] = useState(0);

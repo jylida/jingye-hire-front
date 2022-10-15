@@ -21,6 +21,7 @@ import {
   infoObjJobArray,
   infoObjPersonalArray,
 } from "./propNames";
+import UpdateStatusButton from "./UpdateStatusButton";
 
 const ApplicationPost = () => {
   const axiosPrivate = useAxiosPrivate();
@@ -48,16 +49,6 @@ const ApplicationPost = () => {
       },
     });
     fileDownload(response.data, fileName);
-  };
-  const handleFeedback = async () => {
-    try {
-      await axiosPrivate.put(`/apply/${application.username}`, {
-        status: feedback,
-      });
-      setUpdated(true);
-    } catch (err) {
-      setErrMsg(err.message);
-    }
   };
   return (
     <Stack direction="column" spacing={{ xs: 1, sm: 2 }}>
@@ -191,13 +182,12 @@ const ApplicationPost = () => {
                 </RadioGroup>
               </FormControl>
               {feedback && (
-                <Button
-                  variant="contained"
-                  sx={{ maxHeight: "2.5rem" }}
-                  onClick={handleFeedback}
-                >
-                  状态更新
-                </Button>
+                <UpdateStatusButton
+                  username={application.username}
+                  feedback={feedback}
+                  setUpdated={setUpdated}
+                  setErrMsg={setErrMsg}
+                />
               )}
               {errMsg && (
                 <Typography variant="h6" color="error">

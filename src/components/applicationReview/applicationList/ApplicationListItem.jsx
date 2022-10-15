@@ -49,10 +49,7 @@ const ApplicationItem = ({ application }) => {
             label={application.subject}
           />
         )}
-        {["接受", "拒绝"].includes(
-          application.progress[application.progress.length - 1]
-            .applicationStatus
-        ) ? (
+        {application.handled ? (
           <Chip
             size="small"
             variant="contained"

@@ -7,7 +7,7 @@ import ApplyReviewContext from "../../../context/applyReviewProvider";
 const ApplicationListFeed = () => {
   const { page, setPage, limit, setLImit, fetched } =
     useContext(ApplyReviewContext);
-  if (fetched.applications.length === 0)
+  if (fetched?.applications?.length === 0)
     return (
       <Typography variant="h6" fontWeight="bold" color="warning.main">
         抱歉, 未找到符合搜索条件的申请...

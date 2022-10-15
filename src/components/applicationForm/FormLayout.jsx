@@ -2,8 +2,6 @@ import { useContext } from "react";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import ButtonGroup from "@mui/material/ButtonGroup";
 import FormInput from "./FormInput";
 import ApplyFormContext from "../../context/applyFormProvider";
 import applySubmitHandler from "./applySubmitHandler";
@@ -11,6 +9,7 @@ import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import ApplyStatus from "./ApplyStatus";
 import ApplyFeedBack from "./ApplyFeedback";
 import LogoutButton from "./FormSections/utils/LogoutButton";
+import ProgressStepper from "./FormSections/ProgressStepper";
 
 const FormLayout = () => {
   const {
@@ -31,6 +30,31 @@ const FormLayout = () => {
   } = useContext(ApplyFormContext);
   const axiosPrivate = useAxiosPrivate();
   const { progress } = JSON.parse(localStorage.getItem("auth"));
+  const handleSubmit =
+    (
+      axiosPrivate,
+      personal,
+      contact,
+      address,
+      eduBgSeq,
+      workBgSeq,
+      setErrMsg,
+      setSuccess,
+      job
+    ) =>
+    () => {
+      applySubmitHandler(
+        axiosPrivate,
+        personal,
+        contact,
+        address,
+        eduBgSeq,
+        workBgSeq,
+        setErrMsg,
+        setSuccess,
+        job
+      );
+    };
   return (
     <Container maxWidth="lg" sx={{ padding: { xs: "1rem", md: "2rem" } }}>
       <Stack
@@ -64,55 +88,25 @@ const FormLayout = () => {
           <ApplyFeedBack applyNum={success.id} phone={contact.phone.content} />
         ) : (
           <Stack spacing={{ xs: 1, sm: 2, md: 3 }} sx={{ width: "100%" }}>
-            <Stack
-              spacing={{ xs: 2, sm: 0 }}
-              sx={{
-                width: "100%",
-                display: "flex",
-                flexDirection: { xs: "column", sm: "row" },
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <ButtonGroup variant="outlined" color="primary">
-                {pageNames.map((nm, i) => (
-                  <Button
-                    key={`page-selection-button-group-page-${i}`}
-                    disableElevation
-                    variant={page === i ? "contained" : "outlined"}
-                    onClick={() => {
-                      setPage(i);
-                      setErrMsg("");
-                    }}
-                  >
-                    {nm}
-                  </Button>
-                ))}
-              </ButtonGroup>
-              <Button
-                variant="contained"
-                color="error"
-                disabled={!valid}
-                sx={{ margin: 0 }}
-                onClick={() =>
-                  applySubmitHandler(
-                    axiosPrivate,
-                    personal,
-                    contact,
-                    address,
-                    eduBgSeq,
-                    workBgSeq,
-                    setErrMsg,
-                    setSuccess,
-                    job
-                  )
-                }
-              >
-                提交入职申请
-              </Button>
-            </Stack>
+            <ProgressStepper
+              pageNames={pageNames}
+              activeStep={page}
+              setActiveStep={setPage}
+              handleSubmit={handleSubmit(
+                axiosPrivate,
+                personal,
+                contact,
+                address,
+                eduBgSeq,
+                workBgSeq,
+                setErrMsg,
+                setSuccess,
+                job
+              )}
+              valid={valid}
+            />
             <Typography variant="subtitle1">
-              {pageNames[page] + " (带*为必填项)"}
+              {pageNames[page].name + " (带*为必填项)"}
             </Typography>
             {errMsg.length > 0 && (
               <Typography variant="subtitle2" color="error">

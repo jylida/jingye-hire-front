@@ -26,7 +26,6 @@ const getApplicationForm = async (
   if (department && department !== "all") {
     queryUrl += `&department=${department}`;
   }
-  console.log(queryUrl);
   const response = await axiosPrivate.get(queryUrl);
   return response.data;
 };
@@ -39,9 +38,8 @@ const ApplicationReview = () => {
     isError,
     error,
     data: fetchedData,
-    // isPreviousData,
   } = useQuery(
-    ["/apply", page, isLecturer, handled, subject],
+    ["apply", page, isLecturer, handled, subject],
     () =>
       getApplicationForm(
         page,
@@ -53,7 +51,7 @@ const ApplicationReview = () => {
         department
       ),
     {
-      keepPreviousData: false,
+      keepPreviousData: true,
     }
   );
   if (isLoading) return <h2>Is loading</h2>;

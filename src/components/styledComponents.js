@@ -13,6 +13,12 @@ import Paper from "@mui/material/Paper";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { IconButton } from "@mui/material";
 import { Delete } from "@mui/icons-material";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import Button from "@mui/material/Button";
 
 const StyledAuthContainer = styled("main")({
   overflow: "scroll",
@@ -149,6 +155,23 @@ const FormTable = ({ columnName, rows, rowsDeleteHandler }) => {
   );
 };
 
+const ConfirmDialog = ({ title, content, open, setOpen, handleConfirm }) => {
+  return (
+    <Dialog open={open} onClose={() => setOpen(!open)}>
+      <DialogTitle id="confirm-dialog-title">{title}</DialogTitle>
+      <DialogContent id="confirm-dialog-content">
+        <DialogContentText>{content}</DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={() => setOpen(!open)}>back</Button>
+        <Button color="error" onClick={handleConfirm}>
+          confirm
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
+
 export {
   StyledAuthContainer,
   FormContainer,
@@ -156,4 +179,5 @@ export {
   FormInputs,
   FormDateInput,
   FormTable,
+  ConfirmDialog,
 };
