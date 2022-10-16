@@ -7,9 +7,10 @@ const applySubmitHandler = async (
   workBgSeq,
   setErrMsg,
   setSuccess,
-  job
+  job,
+  username,
+  roles
 ) => {
-  const { username, roles } = JSON.parse(localStorage.getItem("auth"));
   const formData = new FormData();
   if (eduBgSeq.length > 0) {
     eduBgSeq.forEach((bg, index) => {

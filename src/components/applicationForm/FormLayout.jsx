@@ -3,58 +3,20 @@ import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import FormInput from "./FormInput";
+import useAuth from "../../hooks/useAuth";
 import ApplyFormContext from "../../context/applyFormProvider";
-import applySubmitHandler from "./applySubmitHandler";
 import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import ApplyStatus from "./ApplyStatus";
 import ApplyFeedBack from "./ApplyFeedback";
 import LogoutButton from "./FormSections/utils/LogoutButton";
 import ProgressStepper from "./FormSections/ProgressStepper";
+import ApplySubmitButton from "./ApplySubmitButton";
 
 const FormLayout = () => {
-  const {
-    page,
-    setPage,
-    pageNames,
-    valid,
-    errMsg,
-    setErrMsg,
-    personal,
-    contact,
-    address,
-    eduBgSeq,
-    workBgSeq,
-    success,
-    setSuccess,
-    job,
-  } = useContext(ApplyFormContext);
-  const axiosPrivate = useAxiosPrivate();
-  const { progress } = JSON.parse(localStorage.getItem("auth"));
-  const handleSubmit =
-    (
-      axiosPrivate,
-      personal,
-      contact,
-      address,
-      eduBgSeq,
-      workBgSeq,
-      setErrMsg,
-      setSuccess,
-      job
-    ) =>
-    () => {
-      applySubmitHandler(
-        axiosPrivate,
-        personal,
-        contact,
-        address,
-        eduBgSeq,
-        workBgSeq,
-        setErrMsg,
-        setSuccess,
-        job
-      );
-    };
+  const { page, setPage, pageNames, valid, errMsg, contact, success } =
+    useContext(ApplyFormContext);
+  const { auth } = useAuth();
+  const { progress } = auth;
   return (
     <Container maxWidth="lg" sx={{ padding: { xs: "1rem", md: "2rem" } }}>
       <Stack
@@ -92,17 +54,7 @@ const FormLayout = () => {
               pageNames={pageNames}
               activeStep={page}
               setActiveStep={setPage}
-              handleSubmit={handleSubmit(
-                axiosPrivate,
-                personal,
-                contact,
-                address,
-                eduBgSeq,
-                workBgSeq,
-                setErrMsg,
-                setSuccess,
-                job
-              )}
+              submitButton={<ApplySubmitButton />}
               valid={valid}
             />
             <Typography variant="subtitle1">

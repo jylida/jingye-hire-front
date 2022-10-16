@@ -12,7 +12,7 @@ const ProgressStepper = ({
   pageNames,
   activeStep,
   setActiveStep,
-  handleSubmit,
+  submitButton,
   valid,
 }) => {
   const theme = useTheme();
@@ -57,7 +57,7 @@ const ProgressStepper = ({
               content="请务必确保提交信息真实准确！任何虚报都可能造成申请无效！"
               open={openDialog}
               setOpen={setOpenDialog}
-              handleConfirm={handleSubmit}
+              confirmButton={submitButton}
             />
           </>
         ) : (

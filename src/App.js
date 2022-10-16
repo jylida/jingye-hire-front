@@ -13,6 +13,7 @@ import ApplicationReview from "./components/applicationReview";
 import { ApplyReviewProvider } from "./context/applyReviewProvider";
 import ApplicationPost from "./components/applicationReview/ApplicationPost";
 import ApplicationListFeed from "./components/applicationReview/applicationList/ApplicationListFeed";
+import PersistLogin from "./components/PersistLogin";
 
 function App() {
   const ROLES_LIST = {
@@ -52,6 +53,9 @@ function App() {
       path: "findbackkey",
       element: <FindBackKey />,
     },
+    // {
+    // element: <PersistLogin />,
+    // children: [
     {
       element: <RequireAuth allowedRoles={[ROLES_LIST.User]} />,
       children: [
@@ -86,6 +90,8 @@ function App() {
         },
       ],
     },
+    // ],
+    // },
   ]);
   return <RouterProvider router={routers} />;
 }

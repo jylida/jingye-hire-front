@@ -155,7 +155,7 @@ const FormTable = ({ columnName, rows, rowsDeleteHandler }) => {
   );
 };
 
-const ConfirmDialog = ({ title, content, open, setOpen, handleConfirm }) => {
+const ConfirmDialog = ({ title, content, open, setOpen, confirmButton }) => {
   return (
     <Dialog open={open} onClose={() => setOpen(!open)}>
       <DialogTitle id="confirm-dialog-title">{title}</DialogTitle>
@@ -164,9 +164,7 @@ const ConfirmDialog = ({ title, content, open, setOpen, handleConfirm }) => {
       </DialogContent>
       <DialogActions>
         <Button onClick={() => setOpen(!open)}>back</Button>
-        <Button color="error" onClick={handleConfirm}>
-          confirm
-        </Button>
+        {confirmButton}
       </DialogActions>
     </Dialog>
   );
