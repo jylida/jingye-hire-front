@@ -13,7 +13,7 @@ import ApplicationReview from "./components/applicationReview";
 import { ApplyReviewProvider } from "./context/applyReviewProvider";
 import ApplicationPost from "./components/applicationReview/ApplicationPost";
 import ApplicationListFeed from "./components/applicationReview/applicationList/ApplicationListFeed";
-import PersistLogin from "./components/PersistLogin";
+// import PersistLogin from "./components/PersistLogin";
 
 function App() {
   const ROLES_LIST = {
