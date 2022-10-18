@@ -89,7 +89,7 @@ const applySubmitHandler = async (
     if (!err?.message) {
       setErrMsg("no internet response");
     } else if (err?.response.status === 409) {
-      setErrMsg("you have already lodged a application!");
+      setErrMsg(err?.response.data.message);
     } else {
       setErrMsg("application submission fails!");
     }

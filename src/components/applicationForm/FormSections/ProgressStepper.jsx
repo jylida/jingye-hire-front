@@ -1,27 +1,15 @@
-import { useState } from "react";
 import Stepper from "@mui/material/Stepper";
 import Step from "@mui/material/Step";
-import Button from "@mui/material/Button";
 import useTheme from "@mui/material/styles/useTheme";
 import useMediaquery from "@mui/material/useMediaQuery";
 import { StepLabel } from "@mui/material";
 import { Stack } from "@mui/system";
-import { ConfirmDialog } from "../../styledComponents";
 
-const ProgressStepper = ({
-  pageNames,
-  activeStep,
-  setActiveStep,
-  submitButton,
-  valid,
-}) => {
+const ProgressStepper = ({ pageNames, activeStep }) => {
   const theme = useTheme();
-  const [openDialog, setOpenDialog] = useState(false);
   const isSM = useMediaquery(theme.breakpoints.down("md"));
 
   const totalStep = pageNames.length;
-  const handleNext = () => setActiveStep((prev) => prev + 1);
-  const handleBack = () => setActiveStep((prev) => prev - 1);
 
   return (
     <Stack direction="column" spacing={{ xs: 1, sm: 2 }} sx={{ width: "100%" }}>
@@ -35,7 +23,7 @@ const ProgressStepper = ({
           </Step>
         ))}
       </Stepper>
-      <Stack direction="row" justifyContent="space-between">
+      {/* <Stack direction="row" justifyContent="space-between">
         <Button
           variant="outlined"
           onClick={handleBack}
@@ -65,7 +53,7 @@ const ProgressStepper = ({
             下一页
           </Button>
         )}
-      </Stack>
+      </Stack> */}
     </Stack>
   );
 };

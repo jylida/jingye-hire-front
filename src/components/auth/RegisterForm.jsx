@@ -29,13 +29,13 @@ const RegisterForm = ({ state, dispatch, actionType, initState }) => (
       error={!state.username.isValid && state.username.content > 0}
       helperText="英文字母起头,长度4到23,可包含英文字母、数字以及下划线"
       InputProps={CheckLabel(state.username.isValid)}
-      value={state.username.content}
+      value={state.username.content.toLowerCase()}
       onChange={(e) => {
         dispatch({
           type: actionType.setUser,
           payload: {
             ...state.username,
-            content: e.target.value,
+            content: e.target.value.toLowerCase(),
           },
         });
       }}

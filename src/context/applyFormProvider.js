@@ -1,14 +1,14 @@
 import { createContext, useEffect, useState } from "react";
 
 const ApplyFormContext = createContext();
-const pageNames = [
-  { name: "个人信息", required: true },
-  { name: "教育背景", required: true },
-  { name: "工作经验", required: false },
-  { name: "总结", required: false },
-];
 
 export const ApplyFormContextProvider = ({ children }) => {
+  const [pageNames, setPageNames] = useState([
+    { name: "个人信息", required: true, valid: false },
+    { name: "教育背景", required: true, valid: false },
+    { name: "工作经验", required: false, valid: true },
+    { name: "总结", required: false, valid: true },
+  ]);
   const [page, setPage] = useState(0);
   const [personal, setPersonal] = useState({
     name: { content: "", valid: false, compulsory: true },
@@ -132,6 +132,20 @@ export const ApplyFormContextProvider = ({ children }) => {
   useEffect(() => {
     setErrMsg("");
   }, [eduBgSeq.length, workBgSeq.length]);
+  useEffect(() => {
+    setPageNames((prev) => {
+      const newPages = [...prev];
+      newPages[0].valid = personal.valid && contact.valid && address.valid;
+      return newPages;
+    });
+  }, [personal.valid, address.valid, contact.valid]);
+  useEffect(() => {
+    setPageNames((prev) => {
+      const newPages = [...prev];
+      newPages[1].valid = eduBgSeq.length > 0;
+      return newPages;
+    });
+  }, [eduBgSeq.length]);
   return (
     <ApplyFormContext.Provider
       value={{

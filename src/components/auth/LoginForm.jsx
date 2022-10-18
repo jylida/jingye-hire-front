@@ -15,7 +15,7 @@ const LoginForm = ({ state, dispatch, actionType, setAuth }) => {
     Editor: 1984,
     User: 2001,
   };
-  const { captchaMatch } = useContext(AuthContext);
+  const { captchaMatch, setCaptchaMatch } = useContext(AuthContext);
   return (
     <FormControl component={Stack} spacing={3}>
       <TextField
@@ -85,6 +85,7 @@ const LoginForm = ({ state, dispatch, actionType, setAuth }) => {
             );
             dispatch({ type: actionType.setIsLoginSuccess, payload: true });
             dispatch({ type: actionType.setErrorMessage, payload: "" });
+            setCaptchaMatch(false);
             console.log("login successfully");
             if (
               roles.includes(ROLES_LIST.Admin) ||

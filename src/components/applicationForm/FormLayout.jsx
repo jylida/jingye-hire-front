@@ -5,11 +5,11 @@ import Typography from "@mui/material/Typography";
 import FormInput from "./FormInput";
 import useAuth from "../../hooks/useAuth";
 import ApplyFormContext from "../../context/applyFormProvider";
-import useAxiosPrivate from "../../hooks/useAxiosPrivate";
 import ApplyStatus from "./ApplyStatus";
 import ApplyFeedBack from "./ApplyFeedback";
 import LogoutButton from "./FormSections/utils/LogoutButton";
 import ProgressStepper from "./FormSections/ProgressStepper";
+import ProgressNavigator from "./FormSections/ProgressNavigator";
 import ApplySubmitButton from "./ApplySubmitButton";
 
 const FormLayout = () => {
@@ -18,15 +18,21 @@ const FormLayout = () => {
   const { auth } = useAuth();
   const { progress } = auth;
   return (
-    <Container maxWidth="lg" sx={{ padding: { xs: "1rem", md: "2rem" } }}>
+    <Container
+      sx={{
+        padding: {
+          xs: "1rem",
+          md: "2rem",
+        },
+      }}
+    >
       <Stack
         component="form"
         direction="column"
         spacing={{ xs: 1, sm: 2, md: 3 }}
         sx={{
           width: "100%",
-          height: { xs: "100%", sm: "100vw", lg: "90vh" },
-          overflowY: "scroll",
+          height: { xs: "100%", sm: "100vw", lg: "100vh" },
           justifyContent: "flex-start",
           alignItems: "flex-start",
         }}
@@ -57,10 +63,11 @@ const FormLayout = () => {
               submitButton={<ApplySubmitButton />}
               valid={valid}
             />
+            <ProgressNavigator />
             <Typography variant="subtitle1">
               {pageNames[page].name + " (带*为必填项)"}
             </Typography>
-            {errMsg.length > 0 && (
+            {errMsg?.length > 0 && (
               <Typography variant="subtitle2" color="error">
                 {errMsg}
               </Typography>
