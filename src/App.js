@@ -4,16 +4,16 @@ import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import FindBackKey from "./components/auth/FindBackKey";
 import RequireAuth from "./components/auth/RequireAuth";
-import HomePage from "./components/homepage/index";
-import HomePageContent from "./components/homepage/Content";
-import PostPage from "./components/homepage/PostPage";
+// import HomePage from "./components/homepage/index";
+// import HomePageContent from "./components/homepage/Content";
+// import PostPage from "./components/homepage/PostPage";
 import ApplyForm from "./components/applicationForm";
-import { HireInfoProvider } from "./context/hireInfoProvider";
+// import { HireInfoProvider } from "./context/hireInfoProvider";
 import ApplicationReview from "./components/applicationReview";
 import { ApplyReviewProvider } from "./context/applyReviewProvider";
 import ApplicationPost from "./components/applicationReview/ApplicationPost";
 import ApplicationListFeed from "./components/applicationReview/applicationList/ApplicationListFeed";
-// import PersistLogin from "./components/PersistLogin";
+import ErrorPage from "./components/error-page";
 
 function App() {
   const ROLES_LIST = {
@@ -23,27 +23,28 @@ function App() {
   };
 
   const routers = createBrowserRouter([
+    // {
+    //   path: "hire",
+    //   element: (
+    //     <HireInfoProvider>
+    //       <HomePage />
+    //     </HireInfoProvider>
+    //   ),
+    //   children: [
+    //     {
+    //       path: "",
+    //       element: <HomePageContent />,
+    //     },
+    //     {
+    //       path: "news/:id",
+    //       element: <PostPage />,
+    //     },
+    //   ],
+    // },
     {
-      path: "hire",
-      element: (
-        <HireInfoProvider>
-          <HomePage />
-        </HireInfoProvider>
-      ),
-      children: [
-        {
-          path: "",
-          element: <HomePageContent />,
-        },
-        {
-          path: "news/:id",
-          element: <PostPage />,
-        },
-      ],
-    },
-    {
-      path: "register",
+      path: "/",
       element: <Register />,
+      errorElement: <ErrorPage />,
     },
     {
       path: "login",
@@ -53,9 +54,6 @@ function App() {
       path: "findbackkey",
       element: <FindBackKey />,
     },
-    // {
-    // element: <PersistLogin />,
-    // children: [
     {
       element: <RequireAuth allowedRoles={[ROLES_LIST.User]} />,
       children: [
@@ -90,10 +88,9 @@ function App() {
         },
       ],
     },
-    // ],
-    // },
   ]);
   return <RouterProvider router={routers} />;
+  // return <Captcha />;
 }
 
 export default App;

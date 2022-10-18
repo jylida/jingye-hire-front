@@ -37,7 +37,8 @@ const reducer = (state, action) => {
 };
 
 const Login = () => {
-  const [state, dispatch] = useReducer(reducer, loginInit);
+  const authStored = JSON.parse(localStorage.getItem("authStored"));
+  const [state, dispatch] = useReducer(reducer, authStored || loginInit);
   const { setAuth } = useContext(AuthContext);
 
   return (
