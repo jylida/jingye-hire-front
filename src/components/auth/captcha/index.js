@@ -5,32 +5,32 @@ import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import VerifiedIcon from "@mui/icons-material/Verified";
-import api, { BASE_URL } from "../../../api/axios";
+import api from "../../../api/axios";
 import AuthContext from "../../../context/authProvider";
 
 const Captcha = ({ state }) => {
   const [message, setMessage] = useState("请输入验证码");
   const [text, setText] = useState("");
+  const [disabled, setDisabled] = useState(false);
+  const [imgStr, setImgStr] = useState("");
+  const [captchaText, setCaptchaText] = useState("");
   const { captchaMatch, setCaptchaMatch } = useContext(AuthContext);
-  let captchaImg = (
-    <img
-      src={`${BASE_URL}/captcha`}
-      alt="captcha image"
-      height={50}
-      width={200}
-    />
-  );
-  const handleValidate = async () => {
-    try {
-      const result = await api.post("/captcha", { text: text.toLowerCase() });
-      setCaptchaMatch(result.data.match);
-      setMessage("验证成功");
-    } catch (err) {
-      setMessage("输入错误, 请重新输入!");
-      setTimeout(() => handleRefresh(), 1000);
-    } finally {
-      setText("");
+
+  useState(() => {
+    api.get("/captcha").then((response) => {
+      setImgStr(response.data.imageString);
+      setCaptchaText(response.data.captchaText);
+    });
+  }, []);
+  const handleValidate = () => {
+    if (text === captchaText) {
+      setCaptchaMatch(true);
+    }
+    setMessage(captchaMatch ? "验证成功!" : "输入错误, 请点击刷新按钮重试.");
+    if (captchaMatch) {
       localStorage.removeItem("authStored");
+    } else {
+      setDisabled(true);
     }
   };
   const handleRefresh = () => {
@@ -72,7 +72,11 @@ const Captcha = ({ state }) => {
           justifyContent: "space-between",
         }}
       >
-        {captchaImg}
+        {imgStr ? (
+          <img src={`data:image/png;base64,${imgStr}`} alt="captcha image" />
+        ) : (
+          <p>Loading...</p>
+        )}
         <Button
           disabled={captchaMatch}
           variant="contained"
@@ -85,7 +89,7 @@ const Captcha = ({ state }) => {
       </Stack>
       <Stack direction="row" spacing={1}>
         <TextField
-          disabled={captchaMatch}
+          disabled={captchaMatch || disabled}
           value={text}
           fullWidth
           size="small"
