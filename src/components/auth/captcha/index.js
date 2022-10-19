@@ -25,8 +25,11 @@ const Captcha = ({ state }) => {
   const handleValidate = () => {
     if (text === captchaText) {
       setCaptchaMatch(true);
+      setMessage("验证成功!");
+    } else {
+      setCaptchaMatch(false);
+      setMessage("输入错误, 请点击刷新按钮重试.");
     }
-    setMessage(captchaMatch ? "验证成功!" : "输入错误, 请点击刷新按钮重试.");
     if (captchaMatch) {
       localStorage.removeItem("authStored");
     } else {
