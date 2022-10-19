@@ -1,5 +1,5 @@
 import axios from "axios";
-export const BASE_URL = "http://jingyeschool.org.cn:3500";
+export const BASE_URL = "https://jingyeschool.org.cn:3500";
 const api = axios.create({
   baseURL: BASE_URL,
 });
