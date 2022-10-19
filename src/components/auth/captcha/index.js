@@ -13,26 +13,24 @@ const Captcha = ({ state }) => {
   const [text, setText] = useState("");
   const [disabled, setDisabled] = useState(false);
   const [imgStr, setImgStr] = useState("");
-  const [captchaText, setCaptchaText] = useState("");
+  // const [captchaText, setCaptchaText] = useState("");
   const { captchaMatch, setCaptchaMatch } = useContext(AuthContext);
 
   useState(() => {
     api.get("/captcha").then((response) => {
       setImgStr(response.data.imageString);
-      setCaptchaText(response.data.captchaText);
+      // setCaptchaText(response.data.captchaText);
     });
   }, []);
-  const handleValidate = () => {
-    if (text === captchaText) {
+  const handleValidate = async () => {
+    try {
+      await api.post("/captcha", { text });
       setCaptchaMatch(true);
       setMessage("验证成功!");
-    } else {
+      localStorage.removeItem("authStored");
+    } catch (err) {
       setCaptchaMatch(false);
       setMessage("输入错误, 请点击刷新按钮重试.");
-    }
-    if (captchaMatch) {
-      localStorage.removeItem("authStored");
-    } else {
       setDisabled(true);
     }
   };
