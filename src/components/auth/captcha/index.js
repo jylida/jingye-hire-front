@@ -27,12 +27,13 @@ const Captcha = ({ state }) => {
       setMessage("验证成功");
     } catch (err) {
       setMessage("输入错误, 请重新输入!");
+      setTimeout(() => handleRefresh(), 1000);
     } finally {
       setText("");
       localStorage.removeItem("authStored");
     }
   };
-  const handleRefresh = async () => {
+  const handleRefresh = () => {
     try {
       localStorage.removeItem("authStored");
       localStorage.setItem("authStored", JSON.stringify({ ...state }));
