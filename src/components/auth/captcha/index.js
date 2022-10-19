@@ -5,7 +5,7 @@ import TextField from "@mui/material/TextField";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import VerifiedIcon from "@mui/icons-material/Verified";
-import api from "../../../api/axios";
+import api, { BASE_URL } from "../../../api/axios";
 import AuthContext from "../../../context/authProvider";
 
 const Captcha = ({ state }) => {
@@ -14,7 +14,7 @@ const Captcha = ({ state }) => {
   const { captchaMatch, setCaptchaMatch } = useContext(AuthContext);
   let captchaImg = (
     <img
-      src="http://localhost:3500/captcha"
+      src={`${BASE_URL}/captcha`}
       alt="captcha image"
       height={50}
       width={200}
