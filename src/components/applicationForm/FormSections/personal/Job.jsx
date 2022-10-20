@@ -26,7 +26,7 @@ const PersonalJob = () => {
               sx={{ padding: "0 0 0 1rem" }}
             />
           }
-          label="是否申请教职"
+          label="申请教职"
           sx={{ paddingTop: "1.5rem", marginLeft: 0 }}
         />
       </FormItem>

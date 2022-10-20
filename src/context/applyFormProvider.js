@@ -4,7 +4,7 @@ const ApplyFormContext = createContext();
 
 export const ApplyFormContextProvider = ({ children }) => {
   const [pageNames, setPageNames] = useState([
-    { name: "个人信息", required: true, valid: false },
+    { name: "个人及求职信息", required: true, valid: false },
     { name: "教育背景", required: true, valid: false },
     { name: "工作经验", required: false, valid: true },
     { name: "总结", required: false, valid: true },

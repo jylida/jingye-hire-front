@@ -9,7 +9,8 @@ const AuthFormContainer = ({ children }) => (
     justifyContent="center"
     spacing={4}
     sx={{
-      padding: "2.5rem",
+      paddingY: "2.5rem",
+      paddingX: { xs: "1.2rem", md: "2.5rem" },
       width: "100vw",
       maxWidth: "480px",
       minHeight: "750px",
