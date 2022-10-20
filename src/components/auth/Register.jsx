@@ -1,4 +1,4 @@
-import { useReducer, useEffect } from "react";
+import { useReducer, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import AuthFormContainer from "./AuthContainer";
@@ -53,9 +53,9 @@ const reducer = (state, action) => {
 };
 
 const Register = () => {
-  const [state, dispatch] = useReducer(reducer, registerInit);
+  const authStored = JSON.parse(localStorage.getItem("authStored"));
+  const [state, dispatch] = useReducer(reducer, authStored || registerInit);
   const navigate = useNavigate();
-
 
   useEffect(() => {
     dispatch({

@@ -13,13 +13,11 @@ const Captcha = ({ state }) => {
   const [text, setText] = useState("");
   const [disabled, setDisabled] = useState(false);
   const [imgStr, setImgStr] = useState("");
-  // const [captchaText, setCaptchaText] = useState("");
   const { captchaMatch, setCaptchaMatch } = useContext(AuthContext);
 
   useState(() => {
     api.get("/captcha").then((response) => {
       setImgStr(response.data.imageString);
-      // setCaptchaText(response.data.captchaText);
     });
   }, []);
   const handleValidate = async () => {
@@ -88,7 +86,7 @@ const Captcha = ({ state }) => {
           <Refresh />
         </Button>
       </Stack>
-      <Stack direction="row" spacing={1}>
+      <Stack direction="row" spacing={1} width="100%">
         <TextField
           disabled={captchaMatch || disabled}
           value={text}

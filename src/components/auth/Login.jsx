@@ -37,8 +37,7 @@ const reducer = (state, action) => {
 };
 
 const Login = () => {
-  const authStored = JSON.parse(localStorage.getItem("authStored"));
-  const [state, dispatch] = useReducer(reducer, authStored || loginInit);
+  const [state, dispatch] = useReducer(reducer, loginInit);
   const { setAuth } = useContext(AuthContext);
 
   return (
@@ -80,7 +79,7 @@ const Login = () => {
                 尚未注册?请
                 {
                   <Link
-                    to="/register"
+                    to="/"
                     style={{ textDecoration: "none", fontWeight: "bold" }}
                   >
                     注册

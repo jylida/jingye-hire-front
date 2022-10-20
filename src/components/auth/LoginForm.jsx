@@ -1,12 +1,9 @@
-import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import axios from "../../api/axios";
-import Captcha from "./captcha";
-import AuthContext from "../../context/authProvider";
 
 const LoginForm = ({ state, dispatch, actionType, setAuth }) => {
   const navigate = useNavigate();
@@ -15,7 +12,6 @@ const LoginForm = ({ state, dispatch, actionType, setAuth }) => {
     Editor: 1984,
     User: 2001,
   };
-  const { captchaMatch, setCaptchaMatch } = useContext(AuthContext);
   return (
     <FormControl component={Stack} spacing={3}>
       <TextField
@@ -43,9 +39,8 @@ const LoginForm = ({ state, dispatch, actionType, setAuth }) => {
           });
         }}
       />
-      <Captcha state={state} />
       <Button
-        disabled={!captchaMatch}
+        // disabled={!captchaMatch}
         variant="contained"
         sx={{
           paddingY: "1rem",
@@ -58,7 +53,6 @@ const LoginForm = ({ state, dispatch, actionType, setAuth }) => {
               JSON.stringify({
                 user: state.username,
                 pwd: state.password,
-                captchaMatch,
               }),
               {
                 headers: { "Content-Type": "application/json" },
@@ -85,7 +79,6 @@ const LoginForm = ({ state, dispatch, actionType, setAuth }) => {
             );
             dispatch({ type: actionType.setIsLoginSuccess, payload: true });
             dispatch({ type: actionType.setErrorMessage, payload: "" });
-            setCaptchaMatch(false);
             console.log("login successfully");
             if (
               roles.includes(ROLES_LIST.Admin) ||
