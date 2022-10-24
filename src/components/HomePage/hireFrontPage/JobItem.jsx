@@ -13,7 +13,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import Box from "@mui/material/Box";
-import createInitialState from "../../utils.js/createInitialState";
+import createInitialState from "../../../utils/createInitialState";
 
 const actionType = {
   item: "item",

@@ -4,16 +4,16 @@ import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import FindBackKey from "./components/auth/FindBackKey";
 import RequireAuth from "./components/auth/RequireAuth";
-// import HomePage from "./components/homepage/index";
-// import HomePageContent from "./components/homepage/Content";
-// import PostPage from "./components/homepage/PostPage";
+import HomePage from "./components/HomePage";
 import ApplyForm from "./components/applicationForm";
-// import { HireInfoProvider } from "./context/hireInfoProvider";
 import ApplicationReview from "./components/applicationReview";
 import { ApplyReviewProvider } from "./context/applyReviewProvider";
 import ApplicationPost from "./components/applicationReview/ApplicationPost";
 import ApplicationListFeed from "./components/applicationReview/applicationList/ApplicationListFeed";
 import ErrorPage from "./components/error-page";
+import HomePageContent from "./components/HomePage/content";
+import Introduction from "./components/HomePage/Introduction";
+import HireFrontPage from "./components/HomePage/hireFrontPage";
 
 function App() {
   const ROLES_LIST = {
@@ -23,26 +23,26 @@ function App() {
   };
 
   const routers = createBrowserRouter([
-    // {
-    //   path: "hire",
-    //   element: (
-    //     <HireInfoProvider>
-    //       <HomePage />
-    //     </HireInfoProvider>
-    //   ),
-    //   children: [
-    //     {
-    //       path: "",
-    //       element: <HomePageContent />,
-    //     },
-    //     {
-    //       path: "news/:id",
-    //       element: <PostPage />,
-    //     },
-    //   ],
-    // },
     {
       path: "/",
+      element: <HomePage />,
+      children: [
+        {
+          path: "/",
+          element: <HomePageContent />,
+        },
+        {
+          path: "intro",
+          element: <Introduction />,
+        },
+        {
+          path: "hire",
+          element: <HireFrontPage />,
+        },
+      ],
+    },
+    {
+      path: "/register",
       element: <Register />,
       errorElement: <ErrorPage />,
     },
@@ -90,7 +90,6 @@ function App() {
     },
   ]);
   return <RouterProvider router={routers} />;
-  // return <Captcha />;
 }
 
 export default App;
